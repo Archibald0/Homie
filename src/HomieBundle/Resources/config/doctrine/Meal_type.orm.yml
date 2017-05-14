@@ -1,0 +1,15 @@
+HomieBundle\Entity\Meal_type:
+    type: entity
+    table: null
+    repositoryClass: HomieBundle\Repository\Meal_typeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

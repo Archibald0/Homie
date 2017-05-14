@@ -1,0 +1,19 @@
+HomieBundle\Entity\Photo:
+    type: entity
+    table: null
+    repositoryClass: HomieBundle\Repository\PhotoRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        url:
+            type: string
+            length: 255
+        alt:
+            type: string
+            length: 255
+            nullable: true
+    lifecycleCallbacks: {  }

@@ -1,0 +1,3 @@
+homie_homepage:
+    path:     /
+    defaults: { _controller: HomieBundle:Default:index }

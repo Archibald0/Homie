@@ -1,0 +1,14 @@
+HomieBundle\Entity\Available:
+    type: entity
+    table: null
+    repositoryClass: HomieBundle\Repository\AvailableRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date:
+            type: datetime
+    lifecycleCallbacks: {  }

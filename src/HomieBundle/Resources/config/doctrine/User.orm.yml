@@ -1,0 +1,38 @@
+HomieBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: HomieBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        forname:
+            type: string
+            length: 255
+        address1:
+            type: string
+            length: 255
+            nullable: true
+        address2:
+            type: string
+            length: 255
+            nullable: true
+        phone:
+            type: integer
+            nullable: true
+        email:
+            type: string
+            length: 255
+            nullable: true
+
+        description:
+            type: text
+            nullable: true
+
+    lifecycleCallbacks: {  }
