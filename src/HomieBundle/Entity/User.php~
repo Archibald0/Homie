@@ -8,7 +8,7 @@ namespace HomieBundle\Entity;
 class User
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -33,7 +33,7 @@ class User
     private $address2;
 
     /**
-     * @var int
+     * @var integer
      */
     private $phone;
 
@@ -42,11 +42,34 @@ class User
      */
     private $email;
 
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $meals;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $availables;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->meals = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->availables = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -166,7 +189,7 @@ class User
     /**
      * Get phone
      *
-     * @return int
+     * @return integer
      */
     public function getPhone()
     {
@@ -196,5 +219,155 @@ class User
     {
         return $this->email;
     }
-}
 
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return User
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Add meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     *
+     * @return User
+     */
+    public function addMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals[] = $meal;
+
+        return $this;
+    }
+
+    /**
+     * Remove meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     */
+    public function removeMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals->removeElement($meal);
+    }
+
+    /**
+     * Get meals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeals()
+    {
+        return $this->meals;
+    }
+
+    /**
+     * Add available
+     *
+     * @param \HomieBundle\Entity\Available $available
+     *
+     * @return User
+     */
+    public function addAvailable(\HomieBundle\Entity\Available $available)
+    {
+        $this->availables[] = $available;
+
+        return $this;
+    }
+
+    /**
+     * Remove available
+     *
+     * @param \HomieBundle\Entity\Available $available
+     */
+    public function removeAvailable(\HomieBundle\Entity\Available $available)
+    {
+        $this->availables->removeElement($available);
+    }
+
+    /**
+     * Get availables
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAvailables()
+    {
+        return $this->availables;
+    }
+    /**
+     * @var \HomieBundle\Entity\Photo
+     */
+    private $photo;
+
+
+    /**
+     * Set photo
+     *
+     * @param \HomieBundle\Entity\Photo $photo
+     *
+     * @return User
+     */
+    public function setPhoto(\HomieBundle\Entity\Photo $photo = null)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \HomieBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @var \HomieBundle\Entity\UserGroup
+     */
+    private $userGroup;
+
+
+    /**
+     * Set userGroup
+     *
+     * @param \HomieBundle\Entity\UserGroup $userGroup
+     *
+     * @return User
+     */
+    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
+    {
+        $this->userGroup = $userGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get userGroup
+     *
+     * @return \HomieBundle\Entity\UserGroup
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
+    }
+}

@@ -11,4 +11,9 @@ HomieBundle\Entity\Available:
     fields:
         date:
             type: datetime
+
+    manyToMany:
+        user:
+            targetEntity: HomieBundle\Entity\User
+            mappedBy: availables
     lifecycleCallbacks: {  }

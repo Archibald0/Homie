@@ -1,3 +1,8 @@
 homie_homepage:
     path:     /
     defaults: { _controller: HomieBundle:Default:index }
+
+homie_admin:
+    resource: "routing/admin.yml"
+    prefix: /admin
+

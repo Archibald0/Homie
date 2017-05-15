@@ -1,0 +1,49 @@
+homie_admin_home:
+    path: /cooker
+    defaults: {_controller: "HomieBundle:Admin:indexCooker"}
+
+homie_cooker_photo_add:
+    path: /photo
+    defaults: {_controller: "HomieBundle:Default:addPhoto"}
+
+homie_cooker_add:
+    path: /cooker/add
+    defaults: {_controller: "HomieBundle:Admin:addCooker"}
+
+homie_cooker_delete:
+    path: /cooker/delete
+    defaults: {_controller: "HomieBundle:Admin:deleteCooker"}
+
+homie_cooker_edit_form:
+    path: /cooker/edit
+    defaults: {_controller: "HomieBundle:Admin:editCookerForm"}
+    requirements:
+        id : '\d+'
+    methods: ['get']
+
+homie_cooker_edit:
+    path: /cooker/edit/now
+    defaults: {_controller: "HomieBundle:Admin:editCooker"}
+
+homie_admin_meal:
+    path: /meal
+    defaults: {_controller: "HomieBundle:Admin:indexMeal"}
+
+homie_admin_meal_add:
+    path: /meal/add
+    defaults: {_controller: "HomieBundle:Admin:addMeal"}
+
+homie_admin_meal_delete:
+    path: /meal/delete
+    defaults: {_controller: "HomieBundle:Admin:deleteMeal"}
+
+homie_admin_meal_edit_form:
+    path: /meal/edit
+    defaults: {_controller: "HomieBundle:Admin:editMealForm"}
+    requirements:
+        id : '\d+'
+    methods: ['get']
+
+homie_admin_meal_edit:
+    path: /meal/edit/now
+    defaults: {_controller: "HomieBundle:Admin:editMeal"}

@@ -17,4 +17,20 @@ HomieBundle\Entity\Meal:
             nullable: true
         delay:
             type: integer
+        price:
+            type: integer
+
+    manyToMany:
+        users:
+            targetEntity: HomieBundle\Entity\User
+            nullable: true
+
+    manyToOne:
+        meal_type:
+            targetEntity: HomieBundle\Entity\Meal_type
+
+    oneToOne:
+        photo:
+            targetEntity: HomieBundle\Entity\Photo
+
     lifecycleCallbacks: {  }

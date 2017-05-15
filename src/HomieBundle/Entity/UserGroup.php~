@@ -3,18 +3,12 @@
 namespace HomieBundle\Entity;
 
 /**
- * Meal_type
+ * UserGroup
  */
-class Meal_type
+class UserGroup
 {
-    public function __toString()
-    {
-        return $this->name;
-    }
-
-    // -------- GENERATE -------- //
     /**
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -27,7 +21,7 @@ class Meal_type
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -39,7 +33,7 @@ class Meal_type
      *
      * @param string $name
      *
-     * @return Meal_type
+     * @return UserGroup
      */
     public function setName($name)
     {

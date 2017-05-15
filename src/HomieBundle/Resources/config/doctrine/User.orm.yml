@@ -35,4 +35,18 @@ HomieBundle\Entity\User:
             type: text
             nullable: true
 
+    manyToMany:
+        availables:
+            targetEntity: HomieBundle\Entity\Available
+            inversedBy: date
+
+    oneToOne:
+        photo:
+            targetEntity: HomieBundle\Entity\Photo
+
+    manyToOne:
+        userGroup:
+            targetEntity: HomieBundle\Entity\UserGroup
+
+
     lifecycleCallbacks: {  }
