@@ -9,12 +9,6 @@ HomieBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
-        name:
-            type: string
-            length: 255
-        forname:
-            type: string
-            length: 255
         address1:
             type: string
             length: 255
@@ -26,11 +20,6 @@ HomieBundle\Entity\User:
         phone:
             type: integer
             nullable: true
-        email:
-            type: string
-            length: 255
-            nullable: true
-
         description:
             type: text
             nullable: true

@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends '@Homie/Admin/base_admin.html.twig' %}
 
-{% block body %}
+{% block main %}
     <div class="container">
         <div class="row">
             <div class="col s10 offset-s1">
@@ -18,8 +18,9 @@
         <div class="row">
             <div class="col s10 offset-s1" id="formCooker">
                 {{ form_start(formCooker) }}
-                {{ form_row(formCooker.name) }}
-                {{ form_row(formCooker.forname) }}
+                {{ form_row(formCooker.username) }}
+                {{ form_row(formCooker.plainPassword) }}
+                {{ form_row(formCooker.plainPassword) }}
                 {{ form_row(formCooker.address1) }}
                 {{ form_row(formCooker.phone) }}
                 {{ form_row(formCooker.email) }}
@@ -37,7 +38,7 @@
                 {% for cooker in cookers %}
                     <div class="card">
                         <img src="{{ asset('uploads/photos/') }}{{ cooker.photo.url }}" alt="{{ cooker.photo.alt }}">
-                        <p>{{ cooker.name }} {{ cooker.forname }}</p>
+                        <p>{{ cooker.username }}</p>
                         <p>{{ cooker.address1 }}</p>
                         <p>{{ cooker.phone }}</p>
                         <p>{{ cooker.email }}</p>
@@ -66,14 +67,14 @@
                     data: $data,
 
                     success: function (response) {
-                        var $inputToken = $('form[name="homiebundle_user"] input[id="homiebundle_user__token"]');
+                        var $inputToken = $('form[name="app_user_registration"] input[id="app_user_registration__token"]');
                         var idPhoto = response.id;
 
                         var inputElt = $(document.createElement('input'));
                         inputElt.attr({
                             'value': idPhoto,
                             'type': 'hidden',
-                            'name': 'photo_id',
+                            'name': 'app_user_registration_photo_id',
                             'id' : 'photo_input',
                         });
 
@@ -84,83 +85,83 @@
                 })
             });
 
-            $('form[name="homiebundle_user"]').submit( function (e) {
-                e.preventDefault();
-                var $data = new FormData($(this)[0]);
+            {#$('form[name="homiebundle_user"]').submit( function (e) {#}
+                {#e.preventDefault();#}
+                {#var $data = new FormData($(this)[0]);#}
 
-                $.ajax({
-                    method: 'post',
-                    url: '{{ path('homie_cooker_add') }}',
-                    processData: false,
-                    contentType: false,
-                    data: $data,
+                {#$.ajax({#}
+                    {#method: 'post',#}
+                    {#url: '{{ path('homie_cooker_add') }}',#}
+                    {#processData: false,#}
+                    {#contentType: false,#}
+                    {#data: $data,#}
 
-                    success: function (response) {
-                        console.log(response);
-                        var card = $(document.createElement('div'));
-                        card.attr('class', 'card');
-                        card.css({'background':  'url({{ asset("uploads/photos/") }}' +response.photo.url+') center',
-                            'background-size': 'cover',
-                            'display': 'none'});
+                    {#success: function (response) {#}
+                        {#console.log(response);#}
+                        {#var card = $(document.createElement('div'));#}
+                        {#card.attr('class', 'card');#}
+                        {#card.css({'background':  'url({{ asset("uploads/photos/") }}' +response.photo.url+') center',#}
+                            {#'background-size': 'cover',#}
+                            {#'display': 'none'});#}
 
-                        var nameCard = $(document.createElement('p'));
-                        nameCard.text(response.name);
+                        {#var nameCard = $(document.createElement('p'));#}
+                        {#nameCard.text(response.name);#}
 
-                        var fornameCard = $(document.createElement('p'));
-                        fornameCard.text(response.forname);
+                        {#var fornameCard = $(document.createElement('p'));#}
+                        {#fornameCard.text(response.forname);#}
 
-                        var address1Card = $(document.createElement('p'));
-                        address1Card.text(response.address1);
+                        {#var address1Card = $(document.createElement('p'));#}
+                        {#address1Card.text(response.address1);#}
 
-                        var phoneCard = $(document.createElement('p'));
-                        phoneCard.text(response.phone);
+                        {#var phoneCard = $(document.createElement('p'));#}
+                        {#phoneCard.text(response.phone);#}
 
-                        var emailCard = $(document.createElement('p'));
-                        emailCard.text(response.email);
+                        {#var emailCard = $(document.createElement('p'));#}
+                        {#emailCard.text(response.email);#}
 
-                        var deleteBtn = $(document.createElement('a'));
-                        deleteBtn.attr({
-                            'class': 'waves-effect waves-light btn black delete_btn',
-                            'id': response.id,
-                        });
-                        deleteBtn.text('supprimer');
+                        {#var deleteBtn = $(document.createElement('a'));#}
+                        {#deleteBtn.attr({#}
+                            {#'class': 'waves-effect waves-light btn black delete_btn',#}
+                            {#'id': response.id,#}
+                        {#});#}
+                        {#deleteBtn.text('supprimer');#}
 
-                        var editBtn = $(document.createElement('a'));
-                        editBtn.attr({
-                            'class': 'waves-effect waves-light btn black edit_btn',
-                            'id': response.id,
-                        });
-                        editBtn.text('edit');
+                        {#var editBtn = $(document.createElement('a'));#}
+                        {#editBtn.attr({#}
+                            {#'class': 'waves-effect waves-light btn black edit_btn',#}
+                            {#'id': response.id,#}
+                        {#});#}
+                        {#editBtn.text('edit');#}
 
-                        card.append(nameCard, fornameCard,address1Card, phoneCard, emailCard, deleteBtn, editBtn);
+                        {#card.append(nameCard, fornameCard,address1Card, phoneCard, emailCard, deleteBtn, editBtn);#}
 
 
-                        $('#show_cookers').prepend(card);
-                        card.slideDown(800);
+                        {#$('#show_cookers').prepend(card);#}
+                        {#card.slideDown(800);#}
 
-                        $('.delete_btn').on('click', function (e) {
-                            var id = $(this).attr('id');
-                            e.preventDefault();
-                            $.ajax({
-                                method: 'get',
-                                url:  "{{ path('homie_cooker_delete') }}",
-                                data: {'id': id},
-                                success: function (response) {
-                                    alert(response);
-                                    $('#' + id).parent().slideUp(800).remove();
-                                }
-                            });
-                        });
+                        {#$('.delete_btn').on('click', function (e) {#}
+                            {#var id = $(this).attr('id');#}
+                            {#e.preventDefault();#}
+                            {#$.ajax({#}
+                                {#method: 'get',#}
+                                {#url:  "{{ path('homie_cooker_delete') }}",#}
+                                {#data: {'id': id},#}
+                                {#success: function (response) {#}
+                                    {#alert(response);#}
+                                    {#$('#' + id).parent().slideUp(800).remove();#}
+                                {#}#}
+                            {#});#}
+                        {#});#}
 
-                    },
-                    complete: function () {
-                        $('form[name="homiebundle_photo"]').trigger('reset');
-                        $('form[name="homiebundle_user"]').trigger('reset');
-                        $('#formCooker').slideUp(800);
-                    }
+                    {#},#}
+                    {#complete: function () {#}
+                        {#$('form[name="homiebundle_photo"]').trigger('reset');#}
+                        {#$('form[name="homiebundle_user"]').trigger('reset');#}
+                        {#$('#formCooker').slideUp(800);#}
+                    {#}#}
 
-                });
-            });
+                {#});#}
+            {#});#}
 
             $('.delete_btn').on('click', function (e) {
                 var id = $(this).attr('id');

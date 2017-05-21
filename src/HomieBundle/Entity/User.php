@@ -2,25 +2,18 @@
 
 namespace HomieBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * User
  */
-class User
+class User extends BaseUser
 {
+
     /**
      * @var integer
      */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $forname;
+    protected $id;
 
     /**
      * @var string
@@ -40,89 +33,23 @@ class User
     /**
      * @var string
      */
-    private $email;
-
-    /**
-     * @var string
-     */
     private $description;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \HomieBundle\Entity\Photo
      */
-    private $meals;
+    private $photo;
+
+    /**
+     * @var \HomieBundle\Entity\UserGroup
+     */
+    private $userGroup;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $availables;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->meals = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->availables = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return User
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set forname
-     *
-     * @param string $forname
-     *
-     * @return User
-     */
-    public function setForname($forname)
-    {
-        $this->forname = $forname;
-
-        return $this;
-    }
-
-    /**
-     * Get forname
-     *
-     * @return string
-     */
-    public function getForname()
-    {
-        return $this->forname;
-    }
 
     /**
      * Set address1
@@ -197,30 +124,6 @@ class User
     }
 
     /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * Set description
      *
      * @param string $description
@@ -245,37 +148,51 @@ class User
     }
 
     /**
-     * Add meal
+     * Set photo
      *
-     * @param \HomieBundle\Entity\Meal $meal
+     * @param \HomieBundle\Entity\Photo $photo
      *
      * @return User
      */
-    public function addMeal(\HomieBundle\Entity\Meal $meal)
+    public function setPhoto(\HomieBundle\Entity\Photo $photo = null)
     {
-        $this->meals[] = $meal;
+        $this->photo = $photo;
 
         return $this;
     }
 
     /**
-     * Remove meal
+     * Get photo
      *
-     * @param \HomieBundle\Entity\Meal $meal
+     * @return \HomieBundle\Entity\Photo
      */
-    public function removeMeal(\HomieBundle\Entity\Meal $meal)
+    public function getPhoto()
     {
-        $this->meals->removeElement($meal);
+        return $this->photo;
     }
 
     /**
-     * Get meals
+     * Set userGroup
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param \HomieBundle\Entity\UserGroup $userGroup
+     *
+     * @return User
      */
-    public function getMeals()
+    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
     {
-        return $this->meals;
+        $this->userGroup = $userGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get userGroup
+     *
+     * @return \HomieBundle\Entity\UserGroup
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
     }
 
     /**
@@ -310,64 +227,5 @@ class User
     public function getAvailables()
     {
         return $this->availables;
-    }
-    /**
-     * @var \HomieBundle\Entity\Photo
-     */
-    private $photo;
-
-
-    /**
-     * Set photo
-     *
-     * @param \HomieBundle\Entity\Photo $photo
-     *
-     * @return User
-     */
-    public function setPhoto(\HomieBundle\Entity\Photo $photo = null)
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Get photo
-     *
-     * @return \HomieBundle\Entity\Photo
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @var \HomieBundle\Entity\UserGroup
-     */
-    private $userGroup;
-
-
-    /**
-     * Set userGroup
-     *
-     * @param \HomieBundle\Entity\UserGroup $userGroup
-     *
-     * @return User
-     */
-    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
-    {
-        $this->userGroup = $userGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get userGroup
-     *
-     * @return \HomieBundle\Entity\UserGroup
-     */
-    public function getUserGroup()
-    {
-        return $this->userGroup;
     }
 }
