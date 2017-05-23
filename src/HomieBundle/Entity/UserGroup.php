@@ -8,7 +8,7 @@ namespace HomieBundle\Entity;
 class UserGroup
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -21,7 +21,7 @@ class UserGroup
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {

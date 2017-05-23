@@ -1,4 +1,4 @@
-homie_admin_home:
+homie_admin_cooker:
     path: /cooker
     defaults: {_controller: "HomieBundle:Admin:indexCooker"}
 

@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -10,7 +11,9 @@
         <link rel="stylesheet" href="{{ asset('bundles/homie/css/style.css') }}">
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block header %}{% endblock %}
+        {% block main %}{% endblock %}
+        {% block footer %}{% endblock %}
         <script
                 src="https://code.jquery.com/jquery-3.2.1.min.js"
                 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

@@ -3,6 +3,8 @@
 namespace HomieBundle\Controller;
 
 use HomieBundle\Entity\Photo;
+use HomieBundle\Entity\User;
+use HomieBundle\Repository\UserGroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +14,33 @@ use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
+    public function indexAction() {
+        return $this->render('@Homie/Default/index.html.twig');
+    }
+
+    public function signUpClientAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = new User();
+        $user->addRole('ROLE_CLIENT');
+        $user->setEnabled(1);
+        $user->setOnline(0);
+
+        $formUser = $this->createForm('HomieBundle\Form\ClientType', $user);
+
+        $formUser->handleRequest($request);
+
+        if($formUser->isSubmitted() && $formUser->isValid()) {
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('homie_client_home');
+        }
+
+        return $this->render('@Homie/Default/client_signup.html.twig', array(
+            'formUser' => $formUser->createView(),
+        ));
+    }
+
     public function addPhotoAction(Request $request) {
         $photo = new Photo();
 

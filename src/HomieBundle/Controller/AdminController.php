@@ -17,22 +17,32 @@ class AdminController extends Controller
 {
 
     // --------- COOKER ADMIN ---------- //
-    public function indexCookerAction()
+    public function indexCookerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $cookers = $em->getRepository('HomieBundle:User')->findBy(
             array('userGroup' => '2'),
-            array('name' => 'desc')
+            array('username' => 'desc')
             );
         $cooker = new User();
-        $cookerId = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cooker');
-        $cooker->setUserGroup($cookerId);
-
         $photo = new Photo();
 
         $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
         $formCooker = $this->createForm("HomieBundle\Form\CookerType", $cooker);
+
+        $formCooker->handleRequest($request);
+
+        if($formCooker->isSubmitted() && $formCooker->isValid()) {
+            $photoId = $request->request->get('app_user_registration_photo_id');
+            $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
+            $cooker->setPhoto($photo);
+
+            $em->persist($cooker);
+            $em->flush();
+
+            return $this->redirectToRoute("homie_admin_cooker");
+        }
 
         return $this->render('HomieBundle:Admin:admin_cooker.html.twig', array(
             'formPhoto' => $formPhoto->createView(),
@@ -44,11 +54,13 @@ class AdminController extends Controller
     public function addCookerAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $cooker = new User();
-        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneById(2);
+        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
+        $cooker->setUserGroup($cookerType);
+        $cooker->addRole('ROLE_COOKER');
+        $cooker->setEnabled(1);
+        $cooker->setOnline(0);
 
         if($request->isXmlHttpRequest()) {
-            $name = $request->request->get('homiebundle_user')['name'];
-            $forname = $request->request->get('homiebundle_user')['forname'];
             $address1 = $request->request->get('homiebundle_user')['address1'];
             $phone = $request->request->get('homiebundle_user')['phone'];
             $email = $request->request->get('homiebundle_user')['email'];
@@ -57,15 +69,13 @@ class AdminController extends Controller
 
             $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
 
-            $cooker->setName($name);
-            $cooker->setForname($forname);
             $cooker->setAddress1($address1);
             $cooker->setPhone($phone);
             $cooker->setEmail($email);
             $cooker->setDescription($description);
             $cooker->setUserGroup($cookerType);
             $cooker->setPhoto($photo);
-
+            $cooker->setOnline(1);
             $em->persist($cooker);
             $em->flush();
 
@@ -93,7 +103,6 @@ class AdminController extends Controller
         $id = $request->query->get('id');
 
         $cooker = $em->getRepository('HomieBundle:User')->findOneById($id);
-
         $idPhoto = $cooker->getPhoto()->getId();
         $photo = $em->getRepository('HomieBundle:Photo')->findOneById($idPhoto);
         $url = $photo->getUrl();
@@ -131,17 +140,13 @@ class AdminController extends Controller
         $cooker = $em->getRepository('HomieBundle:User')->findOneById($id);
 
         if($request->isXmlHttpRequest()) {
-            $name = $request->request->get('homiebundle_user')['name'];
-            $forname = $request->request->get('homiebundle_user')['forname'];
+
             $address1 = $request->request->get('homiebundle_user')['address1'];
             $phone = $request->request->get('homiebundle_user')['phone'];
             $email = $request->request->get('homiebundle_user')['email'];
             $description = $request->request->get('homiebundle_user')['description'];
             $photoId = $request->request->get('photo_id');
 
-
-            $cooker->setName($name);
-            $cooker->setForname($forname);
             $cooker->setAddress1($address1);
             $cooker->setPhone($phone);
             $cooker->setEmail($email);

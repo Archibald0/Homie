@@ -7,12 +7,15 @@ namespace HomieBundle\Entity;
  */
 class Meal_type
 {
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->name;
     }
 
-    // -------- GENERATE -------- //
+    // Generate Code
     /**
      * @var integer
      */

@@ -14,7 +14,7 @@ class MealType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('id')->add('name')->add('description')->add('delay')->add('price')
+        $builder->add('name')->add('description')->add('delay')->add('price')
             ->add('meal_type', EntityType::class, array(
                 'class' => 'HomieBundle\Entity\Meal_type',
                 'label' => 'Meal Type'

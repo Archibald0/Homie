@@ -6,3 +6,15 @@ homie_admin:
     resource: "routing/admin.yml"
     prefix: /admin
 
+homie_cook:
+    resource: "routing/cook.yml"
+    prefix: /cook
+
+homie_client:
+    resource: "routing/client.yml"
+    prefix: /client
+
+homie_client_signup:
+    path: /signup
+    defaults: {_controller: HomieBundle:Default:signUpClient }
+

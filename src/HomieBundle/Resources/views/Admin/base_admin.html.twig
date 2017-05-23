@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+<header>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">Homie</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ path('homie_admin_cooker') }}">Cooks</a></li>
+                <li><a href="{{ path('homie_admin_meal') }}">Meals</a></li>
+                <li><a href="#">Home</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="{{ path('homie_admin_cooker') }}">Cooks</a></li>
+                <li><a href="{{ path('homie_admin_meal') }}">Meals</a></li>
+                <li><a href="#">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+{% endblock %}
+{% block main %}{% endblock %}
+{% block footer %}{% endblock %}
