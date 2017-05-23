@@ -23,6 +23,7 @@ HomieBundle\Entity\Meal:
     manyToMany:
         users:
             targetEntity: HomieBundle\Entity\User
+            mappedBy: meals
             nullable: true
 
     manyToOne:

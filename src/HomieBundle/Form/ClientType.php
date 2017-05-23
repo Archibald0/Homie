@@ -3,11 +3,10 @@
 namespace HomieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class CookerType extends AbstractType
+class ClientType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -19,7 +18,7 @@ class CookerType extends AbstractType
             ->add('address1')
             ->add('phone')
             ->add('email')
-            ->add('description')
+            ->add('submit', SubmitType::class)
         ;
     }
 

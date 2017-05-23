@@ -28,9 +28,19 @@ class Meal
     private $delay;
 
     /**
+     * @var integer
+     */
+    private $price;
+
+    /**
      * @var \HomieBundle\Entity\Photo
      */
     private $photo;
+
+    /**
+     * @var \HomieBundle\Entity\Meal_type
+     */
+    private $meal_type;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -128,6 +138,30 @@ class Meal
     }
 
     /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return Meal
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
      * Set photo
      *
      * @param \HomieBundle\Entity\Photo $photo
@@ -149,6 +183,30 @@ class Meal
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Set mealType
+     *
+     * @param \HomieBundle\Entity\Meal_type $mealType
+     *
+     * @return Meal
+     */
+    public function setMealType(\HomieBundle\Entity\Meal_type $mealType = null)
+    {
+        $this->meal_type = $mealType;
+
+        return $this;
+    }
+
+    /**
+     * Get mealType
+     *
+     * @return \HomieBundle\Entity\Meal_type
+     */
+    public function getMealType()
+    {
+        return $this->meal_type;
     }
 
     /**
@@ -183,63 +241,5 @@ class Meal
     public function getUsers()
     {
         return $this->users;
-    }
-    /**
-     * @var \HomieBundle\Entity\Meal_type
-     */
-    private $meal_type;
-
-
-    /**
-     * Set mealType
-     *
-     * @param \HomieBundle\Entity\Meal_type $mealType
-     *
-     * @return Meal
-     */
-    public function setMealType(\HomieBundle\Entity\Meal_type $mealType = null)
-    {
-        $this->meal_type = $mealType;
-
-        return $this;
-    }
-
-    /**
-     * Get mealType
-     *
-     * @return \HomieBundle\Entity\Meal_type
-     */
-    public function getMealType()
-    {
-        return $this->meal_type;
-    }
-    /**
-     * @var integer
-     */
-    private $price;
-
-
-    /**
-     * Set price
-     *
-     * @param integer $price
-     *
-     * @return Meal
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return integer
-     */
-    public function getPrice()
-    {
-        return $this->price;
     }
 }

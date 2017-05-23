@@ -24,10 +24,20 @@ HomieBundle\Entity\User:
             type: text
             nullable: true
 
-    manyToMany:
+        online:
+            type: boolean
+
+    oneToMany:
         availables:
             targetEntity: HomieBundle\Entity\Available
-            inversedBy: date
+            mappedBy: user
+            nullable: true
+            cascade: ["all"]
+    manyToMany:
+        meals:
+            targetEntity: HomieBundle\Entity\Meal
+            inversedBy: users
+            nullable: true
 
     oneToOne:
         photo:

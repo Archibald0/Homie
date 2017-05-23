@@ -132,7 +132,7 @@ console.log($inputToken);
                             card.append(nameCard, descCard, delayCard, mealTypeCard, deleteBtn, editBtn);
 
 
-                            $('#show_cookers').prepend(card);
+                            $('#show_mealss').prepend(card);
                             card.slideDown(800);
 
                             $('.delete_btn').on('click', function (e) {
@@ -153,7 +153,8 @@ console.log($inputToken);
                         complete: function () {
                             $('form[name="homiebundle_photo"]').trigger('reset');
                             $('form[name="homiebundle_meal"]').trigger('reset');
-                            $('#formCooker').slideUp(800);
+                            $('#formMeal').slideUp(800);
+                            $('#photo_input').remove();
                         }
 
                     });

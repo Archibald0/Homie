@@ -9,6 +9,19 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class User extends BaseUser
 {
+    /**
+     * @var int
+     */
+    protected $id;
 
-    
+    /**
+     * @return $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    //GENERATE CODE
+
 }

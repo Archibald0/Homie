@@ -1,0 +1,3 @@
+homie_client_home:
+    path: /
+    defaults: {_controller: "HomieBundle:Client:showMealClient"}

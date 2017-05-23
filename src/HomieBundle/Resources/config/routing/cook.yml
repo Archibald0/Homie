@@ -1,0 +1,27 @@
+homie_cook_meals:
+    path: /meal
+    defaults: {_controller: "HomieBundle:Cook:showMeal"}
+
+homie_cook_add_meal:
+    path: /meal/add
+    defaults: {_controller: "HomieBundle:Cook:addMeal"}
+
+homie_cook_delete_meal:
+    path: /meal/delete
+    defaults: {_controller: "HomieBundle:Cook:deleteCookMeal"}
+
+homie_cook_available:
+    path: /available
+    defaults: {_controller: "HomieBundle:Cook:available" }
+
+homie_cook_available_add:
+    path: /available/add
+    defaults: {_controller: "HomieBundle:Cook:addAvailable"}
+
+homie_cook_available_delete:
+    path: /available/delete
+    defaults: {_controller: "HomieBundle:Cook:deleteAvailable"}
+
+homie_cook_passOnline:
+    path: /online
+    defaults: {_controller: "HomieBundle:Cook:passOnline"}

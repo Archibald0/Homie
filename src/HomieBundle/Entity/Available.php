@@ -7,7 +7,6 @@ namespace HomieBundle\Entity;
  */
 class Available
 {
-
     /**
      * @var integer
      */
@@ -16,20 +15,18 @@ class Available
     /**
      * @var \DateTime
      */
-    private $date;
+    private $start_date;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \DateTime
+     */
+    private $end_date;
+
+    /**
+     * @var \HomieBundle\Entity\User
      */
     private $user;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -42,57 +39,71 @@ class Available
     }
 
     /**
-     * Set date
+     * Set startDate
      *
-     * @param \DateTime $date
+     * @param \DateTime $startDate
      *
      * @return Available
      */
-    public function setDate($date)
+    public function setStartDate($startDate)
     {
-        $this->date = $date;
+        $this->start_date = $startDate;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get startDate
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getStartDate()
     {
-        return $this->date;
+        return $this->start_date;
     }
 
     /**
-     * Add user
+     * Set endDate
      *
-     * @param \HomieBundle\Entity\User $user
+     * @param \DateTime $endDate
      *
      * @return Available
      */
-    public function addUser(\HomieBundle\Entity\User $user)
+    public function setEndDate($endDate)
     {
-        $this->user[] = $user;
+        $this->end_date = $endDate;
 
         return $this;
     }
 
     /**
-     * Remove user
+     * Get endDate
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->end_date;
+    }
+
+    /**
+     * Set user
      *
      * @param \HomieBundle\Entity\User $user
+     *
+     * @return Available
      */
-    public function removeUser(\HomieBundle\Entity\User $user)
+    public function setUser(\HomieBundle\Entity\User $user = null)
     {
-        $this->user->removeElement($user);
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
      * Get user
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \HomieBundle\Entity\User
      */
     public function getUser()
     {

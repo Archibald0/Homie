@@ -9,11 +9,20 @@ use FOS\UserBundle\Model\User as BaseUser;
  */
 class User extends BaseUser
 {
-
     /**
-     * @var integer
+     * @var int
      */
     protected $id;
+
+    /**
+     * @return $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    //GENERATE CODE
 
     /**
      * @var string
@@ -36,9 +45,19 @@ class User extends BaseUser
     private $description;
 
     /**
+     * @var boolean
+     */
+    private $online;
+
+    /**
      * @var \HomieBundle\Entity\Photo
      */
     private $photo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $availables;
 
     /**
      * @var \HomieBundle\Entity\UserGroup
@@ -48,7 +67,7 @@ class User extends BaseUser
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $availables;
+    private $meals;
 
 
     /**
@@ -148,6 +167,30 @@ class User extends BaseUser
     }
 
     /**
+     * Set online
+     *
+     * @param boolean $online
+     *
+     * @return User
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * Get online
+     *
+     * @return boolean
+     */
+    public function getOnline()
+    {
+        return $this->online;
+    }
+
+    /**
      * Set photo
      *
      * @param \HomieBundle\Entity\Photo $photo
@@ -169,30 +212,6 @@ class User extends BaseUser
     public function getPhoto()
     {
         return $this->photo;
-    }
-
-    /**
-     * Set userGroup
-     *
-     * @param \HomieBundle\Entity\UserGroup $userGroup
-     *
-     * @return User
-     */
-    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
-    {
-        $this->userGroup = $userGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get userGroup
-     *
-     * @return \HomieBundle\Entity\UserGroup
-     */
-    public function getUserGroup()
-    {
-        return $this->userGroup;
     }
 
     /**
@@ -227,5 +246,63 @@ class User extends BaseUser
     public function getAvailables()
     {
         return $this->availables;
+    }
+
+    /**
+     * Set userGroup
+     *
+     * @param \HomieBundle\Entity\UserGroup $userGroup
+     *
+     * @return User
+     */
+    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
+    {
+        $this->userGroup = $userGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get userGroup
+     *
+     * @return \HomieBundle\Entity\UserGroup
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
+    }
+
+    /**
+     * Add meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     *
+     * @return User
+     */
+    public function addMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals[] = $meal;
+
+        return $this;
+    }
+
+    /**
+     * Remove meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     */
+    public function removeMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals->removeElement($meal);
+    }
+
+    /**
+     * Get meals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeals()
+    {
+        return $this->meals;
     }
 }

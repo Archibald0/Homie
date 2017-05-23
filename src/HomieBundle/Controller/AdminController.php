@@ -26,10 +26,6 @@ class AdminController extends Controller
             array('username' => 'desc')
             );
         $cooker = new User();
-        $cookerId = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
-        $cooker->setUserGroup($cookerId);
-        $cooker->addRole('ROLE_COOKER');
-
         $photo = new Photo();
 
         $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
@@ -58,7 +54,11 @@ class AdminController extends Controller
     public function addCookerAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $cooker = new User();
-        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneById(2);
+        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
+        $cooker->setUserGroup($cookerType);
+        $cooker->addRole('ROLE_COOKER');
+        $cooker->setEnabled(1);
+        $cooker->setOnline(0);
 
         if($request->isXmlHttpRequest()) {
             $address1 = $request->request->get('homiebundle_user')['address1'];
@@ -75,7 +75,7 @@ class AdminController extends Controller
             $cooker->setDescription($description);
             $cooker->setUserGroup($cookerType);
             $cooker->setPhoto($photo);
-
+            $cooker->setOnline(1);
             $em->persist($cooker);
             $em->flush();
 
@@ -103,7 +103,6 @@ class AdminController extends Controller
         $id = $request->query->get('id');
 
         $cooker = $em->getRepository('HomieBundle:User')->findOneById($id);
-
         $idPhoto = $cooker->getPhoto()->getId();
         $photo = $em->getRepository('HomieBundle:Photo')->findOneById($idPhoto);
         $url = $photo->getUrl();
