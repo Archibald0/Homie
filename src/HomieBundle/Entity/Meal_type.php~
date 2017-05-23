@@ -1,0 +1,10 @@
+<?php
+
+namespace HomieBundle\Entity;
+
+/**
+ * Meal_type
+ */
+class Meal_type
+{
+}

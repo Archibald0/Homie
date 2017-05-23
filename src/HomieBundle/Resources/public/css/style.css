@@ -1,0 +1,17 @@
+#formCooker, #formMeal {
+    display: none;
+}
+
+nav{
+    background-color: #ff2f20;
+    color: #000000;
+}
+
+.home_card {
+    text-align: center!important;
+}
+
+.btn_custom {
+    background-color: #ffd745;
+    color: #000000;
+}

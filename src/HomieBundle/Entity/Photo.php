@@ -8,7 +8,7 @@ namespace HomieBundle\Entity;
 class Photo
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -26,7 +26,7 @@ class Photo
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -81,4 +81,3 @@ class Photo
         return $this->alt;
     }
 }
-

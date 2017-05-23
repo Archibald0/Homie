@@ -1,0 +1,115 @@
+{% extends 'HomieBundle:Cook:cook_layout.html.twig' %}
+
+{% block main %}
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    {{ form_start(formAvailable) }}
+                    <input type="date" name="date" class="datepicker">
+                    {{ form_widget(formAvailable.start_date.time) }}
+                    {{ form_widget(formAvailable.end_date.time) }}
+                    <input type="hidden" name="userId" value="{{ cook.id }}">
+                    {{ form_widget(formAvailable.submit) }}
+                    {{ form_end(formAvailable, {'render_rest': false}) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offest-s1" id="showAvailable">
+                    <ul>
+                        {% for available in availables %}
+                            <li>
+                                <p>{{ available.startDate|date("m/d/Y") }}:</p>
+                                <p>from: {{ available.startDate|date("h:i") }} to {{ available.endDate|date("h:i") }}</p>
+                                <button class="waves-effect waves-light btn black delete_btn" id="{{ available.id }}">
+                                    Delete
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready( function () {
+            $('form[name="homiebundle_available"]').submit( function (e) {
+                e.preventDefault();
+                var data = new FormData($(this)[0]);
+                console.log(data);
+
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('homie_cook_available_add') }}',
+                    processData: false,
+                    contentType: false,
+                    data: data,
+
+                    success: function (response) {
+                        alert('Dates added');
+                        console.log(response);
+
+                        var card = $(document.createElement('li'));
+
+                        card.css('display', 'none');
+
+                        var nameCard = $(document.createElement('h3'));
+                        nameCard.text(response.name);
+
+                        var delayCard = $(document.createElement('p'));
+                        delayCard.text(response.delay);
+
+                        var deleteBtn = $(document.createElement('a'));
+                        deleteBtn.attr({
+                            'class': 'waves-effect waves-light btn black delete_btn',
+                            'id': response.id,
+                        });
+                        deleteBtn.text('supprimer');
+
+                        card.append(nameCard, delayCard, deleteBtn);
+
+                        $('#show_meals').prepend(card);
+                        card.slideDown(800);
+
+                        $('.delete_btn').on('click', function (e) {
+                            var id = $(this).attr('id');
+                            e.preventDefault();
+                            $.ajax({
+                                method: 'get',
+                                url:  "{{ path('homie_cook_delete_meal') }}",
+                                data: {'id': id},
+                                success: function (response) {
+                                    alert(response);
+                                    $('#' + id).parent().slideUp(800).remove();
+                                }
+                            });
+                        });
+
+                    },
+                    error: function () {
+                        alert('This meal is already added !');
+                    }
+                })
+            });
+            $('.delete_btn').on('click', function (e) {
+                var id = $(this).attr('id');
+                e.preventDefault();
+                $.ajax({
+                    method: 'get',
+                    url:  "{{ path('homie_cook_available_delete') }}",
+                    data: {'id': id},
+                    success: function (response) {
+                        alert(response);
+                        $('#' + id).parent().slideUp(800).remove();
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}

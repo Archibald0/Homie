@@ -8,7 +8,16 @@ namespace HomieBundle\Entity;
 class Meal_type
 {
     /**
-     * @var int
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    // Generate Code
+    /**
+     * @var integer
      */
     private $id;
 
@@ -21,7 +30,7 @@ class Meal_type
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -52,4 +61,3 @@ class Meal_type
         return $this->name;
     }
 }
-

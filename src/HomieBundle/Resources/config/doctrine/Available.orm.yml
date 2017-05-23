@@ -9,6 +9,17 @@ HomieBundle\Entity\Available:
             generator:
                 strategy: AUTO
     fields:
-        date:
+        start_date:
             type: datetime
+
+        end_date:
+            type: datetime
+
+    manyToOne:
+        user:
+            targetEntity: HomieBundle\Entity\User
+            inversedBy: availables
+            nullable: true
+            cascade: ["all"]
+
     lifecycleCallbacks: {  }

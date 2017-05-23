@@ -1,0 +1,84 @@
+{% extends '@Homie/Admin/base_admin.html.twig' %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col s10 offset-s1">
+                {{ form_start(formPhoto) }}
+                {{ form_row(formPhoto.url) }}
+                {{ form_row(formPhoto.alt) }}
+                <button class="btn waves-effect waves-light right black" type="submit" name="action">
+                    Add Photo
+                    <i class="material-icons left">add</i>
+                </button>
+                {{ form_end(formPhoto) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s10 offset-s1" id="formMealEdit">
+                {{ form_start(formMeal) }}
+                {{ form_row(formMeal.id) }}
+                {{ form_row(formMeal.name) }}
+                {{ form_row(formMeal.description) }}
+                {{ form_row(formMeal.delay) }}
+                {{ form_row(formMeal.price) }}
+                {{ form_row(formMeal.meal_type) }}
+                <button class="btn waves-effect waves-light right black" type="submit" name="action" id="{{ meal.id }}">
+                    Edit Meal
+                    <i class="material-icons left">add</i>
+                </button>
+                {{ form_end(formMeal) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('form[name="homiebundle_photo"]').submit( function (e) {
+                e.preventDefault();
+                var $data = new FormData($(this)[0]);
+                console.log($data);
+
+                $.ajax({
+                    method: 'post',
+                    url: "{{ path('homie_cooker_photo_add') }}",
+                    processData: false,
+                    contentType: false,
+                    data: $data,
+
+                    success: function (response) {
+                        $('#photo_input').remove();
+                        var $inputToken = $('form[name="homiebundle_meal"] input[id="homiebundle_meal__token"]');
+                        var idPhoto = response.id;
+
+                        var inputElt = $(document.createElement('input'));
+                        inputElt.attr({
+                            'value': idPhoto,
+                            'type': 'hidden',
+                            'name': 'photo_id',
+                            'id' : 'photo_input',
+                        });
+
+                        inputElt.insertBefore($inputToken);
+                    }
+                })
+            });
+
+            $('form[name="homiebundle_meal"]').submit( function (e) {
+                e.preventDefault();
+                var $data = new FormData($(this)[0]);
+                var id = $('form[name="homiebundle_meal"] button[type="submit"]').attr('id');
+                console.log(id);
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('homie_admin_meal_edit') }}',
+                    processData: false,
+                    contentType: false,
+                    data: $data,
+                });
+            });
+        });
+    </script>
+{% endblock %}

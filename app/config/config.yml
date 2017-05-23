@@ -8,6 +8,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    photo_directory: '%kernel.root_dir%/../web/uploads/photos'
 
 framework:
     #esi: ~
@@ -69,3 +70,11 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: HomieBundle\Entity\User
+    from_email:
+        address: blabla@gmail.com
+        sender_name: blabla

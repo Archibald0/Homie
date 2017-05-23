@@ -2,25 +2,27 @@
 
 namespace HomieBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * User
  */
-class User
+class User extends BaseUser
 {
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var string
+     * @return $id
      */
-    private $name;
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    /**
-     * @var string
-     */
-    private $forname;
+    //GENERATE CODE
 
     /**
      * @var string
@@ -33,78 +35,40 @@ class User
     private $address2;
 
     /**
-     * @var int
+     * @var integer
      */
     private $phone;
 
     /**
      * @var string
      */
-    private $email;
-
-    /**
-     * @var string
-     */
     private $description;
 
+    /**
+     * @var boolean
+     */
+    private $online;
 
     /**
-     * Get id
-     *
-     * @return int
+     * @var \HomieBundle\Entity\Photo
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $photo;
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return User
+     * @var \Doctrine\Common\Collections\Collection
      */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
+    private $availables;
 
     /**
-     * Get name
-     *
-     * @return string
+     * @var \HomieBundle\Entity\UserGroup
      */
-    public function getName()
-    {
-        return $this->name;
-    }
+    private $userGroup;
 
     /**
-     * Set forname
-     *
-     * @param string $forname
-     *
-     * @return User
+     * @var \Doctrine\Common\Collections\Collection
      */
-    public function setForname($forname)
-    {
-        $this->forname = $forname;
+    private $meals;
 
-        return $this;
-    }
-
-    /**
-     * Get forname
-     *
-     * @return string
-     */
-    public function getForname()
-    {
-        return $this->forname;
-    }
 
     /**
      * Set address1
@@ -171,35 +135,11 @@ class User
     /**
      * Get phone
      *
-     * @return int
+     * @return integer
      */
     public function getPhone()
     {
         return $this->phone;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**
@@ -224,5 +164,145 @@ class User
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set online
+     *
+     * @param boolean $online
+     *
+     * @return User
+     */
+    public function setOnline($online)
+    {
+        $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * Get online
+     *
+     * @return boolean
+     */
+    public function getOnline()
+    {
+        return $this->online;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param \HomieBundle\Entity\Photo $photo
+     *
+     * @return User
+     */
+    public function setPhoto(\HomieBundle\Entity\Photo $photo = null)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return \HomieBundle\Entity\Photo
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Add available
+     *
+     * @param \HomieBundle\Entity\Available $available
+     *
+     * @return User
+     */
+    public function addAvailable(\HomieBundle\Entity\Available $available)
+    {
+        $this->availables[] = $available;
+
+        return $this;
+    }
+
+    /**
+     * Remove available
+     *
+     * @param \HomieBundle\Entity\Available $available
+     */
+    public function removeAvailable(\HomieBundle\Entity\Available $available)
+    {
+        $this->availables->removeElement($available);
+    }
+
+    /**
+     * Get availables
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAvailables()
+    {
+        return $this->availables;
+    }
+
+    /**
+     * Set userGroup
+     *
+     * @param \HomieBundle\Entity\UserGroup $userGroup
+     *
+     * @return User
+     */
+    public function setUserGroup(\HomieBundle\Entity\UserGroup $userGroup = null)
+    {
+        $this->userGroup = $userGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get userGroup
+     *
+     * @return \HomieBundle\Entity\UserGroup
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
+    }
+
+    /**
+     * Add meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     *
+     * @return User
+     */
+    public function addMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals[] = $meal;
+
+        return $this;
+    }
+
+    /**
+     * Remove meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     */
+    public function removeMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals->removeElement($meal);
+    }
+
+    /**
+     * Get meals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeals()
+    {
+        return $this->meals;
     }
 }

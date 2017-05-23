@@ -1,6 +1,6 @@
 HomieBundle\Entity\User:
     type: entity
-    table: null
+    table: fos_user
     repositoryClass: HomieBundle\Repository\UserRepository
     id:
         id:
@@ -9,12 +9,6 @@ HomieBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
-        name:
-            type: string
-            length: 255
-        forname:
-            type: string
-            length: 255
         address1:
             type: string
             length: 255
@@ -26,13 +20,32 @@ HomieBundle\Entity\User:
         phone:
             type: integer
             nullable: true
-        email:
-            type: string
-            length: 255
-            nullable: true
-
         description:
             type: text
             nullable: true
+
+        online:
+            type: boolean
+
+    oneToMany:
+        availables:
+            targetEntity: HomieBundle\Entity\Available
+            mappedBy: user
+            nullable: true
+            cascade: ["all"]
+    manyToMany:
+        meals:
+            targetEntity: HomieBundle\Entity\Meal
+            inversedBy: users
+            nullable: true
+
+    oneToOne:
+        photo:
+            targetEntity: HomieBundle\Entity\Photo
+
+    manyToOne:
+        userGroup:
+            targetEntity: HomieBundle\Entity\UserGroup
+
 
     lifecycleCallbacks: {  }
