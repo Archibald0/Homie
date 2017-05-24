@@ -1,3 +1,7 @@
+homie_admin_home:
+    path: /
+    defaults: {_controller: "HomieBundle:Admin:showCheckout"}
+
 homie_admin_cooker:
     path: /cooker
     defaults: {_controller: "HomieBundle:Admin:indexCooker"}

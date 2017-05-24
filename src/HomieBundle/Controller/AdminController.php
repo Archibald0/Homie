@@ -157,8 +157,6 @@ class AdminController extends Controller
                 $cooker->setPhoto($photo);
             }
 
-
-
             $em->persist($cooker);
             $em->flush();
 
@@ -328,5 +326,21 @@ class AdminController extends Controller
 
             return $response;
         }
+    }
+
+    public function showCheckoutAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
+
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByConfirm($valid);
+        $checkoutSorts = [];
+        foreach ($checkouts as $checkout) {
+            $userId = $checkout->getClient()->getId();
+            $checkoutSorts[$userId][] = $checkout;
+        }
+
+        return $this->render('@Homie/Admin/admin_home.html.twig',array(
+                'checkoutSorts' => $checkoutSorts
+        ));
     }
 }

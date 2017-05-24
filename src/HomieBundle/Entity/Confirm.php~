@@ -3,21 +3,12 @@
 namespace HomieBundle\Entity;
 
 /**
- * Meal_type
+ * Confirm
  */
-class Meal_type
+class Confirm
 {
     /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
-
-    // Generate Code
-    /**
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -30,7 +21,7 @@ class Meal_type
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -42,7 +33,7 @@ class Meal_type
      *
      * @param string $name
      *
-     * @return Meal_type
+     * @return Confirm
      */
     public function setName($name)
     {

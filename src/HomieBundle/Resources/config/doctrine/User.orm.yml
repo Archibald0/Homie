@@ -33,6 +33,13 @@ HomieBundle\Entity\User:
             mappedBy: user
             nullable: true
             cascade: ["all"]
+
+        checkouts:
+            targetEntity: HomieBundle\Entity\Checkout
+            mappedBy: client
+            nullable: true
+            cascade: ['all']
+
     manyToMany:
         meals:
             targetEntity: HomieBundle\Entity\Meal

@@ -1,0 +1,44 @@
+{% extends '@Homie/Client/client_layout.html.twig' %}
+
+{% block main %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col s10 offset-s1">
+                <ul>
+                    {% for checkout in checkouts %}
+                        <li>
+                            <p>{{ checkout.meals.name }} {{ checkout.quantity }}</p>
+                            <p>{{ checkout.cook.username }}</p>
+                            <a class="waves-effect waves-light btn black delete_btn" id="{{ checkout.id }}">Cancel</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p>Total: {{ prices }}€</p>
+            </div>
+
+            <a href="{{ path('homie_client_checkout_purchase') }}" class="waves-effect waves-light btn black" >Purchase</a>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.delete_btn').on('click', function (e) {
+                var id = $(this).attr('id');
+                e.preventDefault();
+                $.ajax({
+                    method: 'get',
+                    url:  "{{ path('homie_client_checkout_delete') }}",
+                    data: {'id': id},
+                    success: function (response) {
+                        alert(response);
+                        $('#' + id).parent().slideUp(800).remove();
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}

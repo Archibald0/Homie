@@ -15,7 +15,7 @@
                                 <p>{{ cook.username }}, price: {{ meal.price }}€</p>
                             </div>
                             <div class="card-action">
-                                <a href="">Buy</a>
+                                <a class="buy_btn" id="{{ cook.id }}-{{ meal.id }}">Buy</a>
                             </div>
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">{{ meal.name }}<i class="material-icons right">close</i></span>
@@ -27,4 +27,25 @@
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.buy_btn').click( function (e) {
+                e.preventDefault();
+                var data = {'ids': $(this).attr('id')} ;
+                $.ajax({
+                    method: 'get',
+                    url: "{{ path('homie_client_buy') }}",
+                    data: data,
+
+                    success: function (response) {
+                        alert(response);
+                    }
+
+                })
+            });
+        })
+    </script>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends '@Homie/Admin/base_admin.html.twig' %}
+
+{% block main %}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col s10 offset-s1">
+                {% for checkoutSort in checkoutSorts %}
+                    {% set price = 0 %}
+                    <div class="row">
+                        <div class="col s12">
+                            <ul>
+                                {% for key, checkout in checkoutSort %}
+                                    {% if key == 0 %}
+                                        <h3>{{ checkout.client.username }}</h3>
+                                        <p>{{ checkout.address }}</p>
+                                        <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
+                                    {% endif %}
+                                    <li>
+                                        <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }}</p>
+                                    </li>
+                                    {% set price = price + checkout.meals.price * checkout.quantity %}
+                                {% endfor %}
+                            </ul>
+                            <p>{{ price }}€</p>
+                            <button class="btn">Confirm</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

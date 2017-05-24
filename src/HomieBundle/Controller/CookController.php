@@ -143,7 +143,7 @@ class CookController extends Controller
         $em->remove($available);
         $em->flush();
 
-        $response = new Response("Meal deleted");
+        $response = new Response("Date deleted");
 
         return $response;
     }

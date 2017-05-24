@@ -10,12 +10,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @return $id
+     * @return int
      */
     public function getId()
     {
@@ -23,6 +18,10 @@ class User extends BaseUser
     }
 
     //GENERATE CODE
+    /**
+     * @var int
+     */
+    protected $id;
 
     /**
      * @var string
@@ -58,6 +57,11 @@ class User extends BaseUser
      * @var \Doctrine\Common\Collections\Collection
      */
     private $availables;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $checkouts;
 
     /**
      * @var \HomieBundle\Entity\UserGroup
@@ -246,6 +250,40 @@ class User extends BaseUser
     public function getAvailables()
     {
         return $this->availables;
+    }
+
+    /**
+     * Add checkout
+     *
+     * @param \HomieBundle\Entity\Checkout $checkout
+     *
+     * @return User
+     */
+    public function addCheckout(\HomieBundle\Entity\Checkout $checkout)
+    {
+        $this->checkouts[] = $checkout;
+
+        return $this;
+    }
+
+    /**
+     * Remove checkout
+     *
+     * @param \HomieBundle\Entity\Checkout $checkout
+     */
+    public function removeCheckout(\HomieBundle\Entity\Checkout $checkout)
+    {
+        $this->checkouts->removeElement($checkout);
+    }
+
+    /**
+     * Get checkouts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCheckouts()
+    {
+        return $this->checkouts;
     }
 
     /**
