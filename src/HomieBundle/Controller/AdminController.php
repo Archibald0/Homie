@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class AdminController extends Controller
 {
-
     // --------- COOKER ADMIN ---------- //
     public function indexCookerAction(Request $request)
     {
@@ -342,5 +341,20 @@ class AdminController extends Controller
         return $this->render('@Homie/Admin/admin_home.html.twig',array(
                 'checkoutSorts' => $checkoutSorts
         ));
+    }
+
+    public function confirmCheckoutAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $userId = $request->query->get('id');
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
+        $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+
+        foreach ($checkouts as $checkout) {
+            $checkout->setConfirm($valid);
+        }
+        $em->flush();
+        $response = new Response("commande confirmée");
+        return $response;
     }
 }

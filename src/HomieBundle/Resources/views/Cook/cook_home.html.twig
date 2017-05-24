@@ -1,0 +1,53 @@
+{% extends '@Homie/Cook/cook_layout.html.twig' %}
+
+{% block main %}
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    {% for key, checkoutSort in checkoutSorts %}
+                        <div class="row">
+                            <div class="col s12">
+                                <ul>
+                                    {% for key, checkout in checkoutSort %}
+                                        {% if key == 0 %}
+                                            <h3>{{ checkout.client.username }}</h3>
+                                            <p>phone: 0{{ checkout.client.phone }}</p>
+                                            <p>address: {{ checkout.address }}</p>
+                                            <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
+                                        {% endif %}
+                                        <li>
+                                            <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <button class="btn confirm_btn" id="{{ key }}">Confirm</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.confirm_btn').click( function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url: '{{ path('homie_cook_confirm') }}',
+                    data: {'id' : id},
+
+                    success: function (response) {
+                        alert(response);
+                        $(this).parent().slideUp(200);
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}

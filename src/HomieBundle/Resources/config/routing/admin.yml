@@ -51,3 +51,7 @@ homie_admin_meal_edit_form:
 homie_admin_meal_edit:
     path: /meal/edit/now
     defaults: {_controller: "HomieBundle:Admin:editMeal"}
+
+homie_admin_checkout_confirm:
+    path: /confirm
+    defaults: {_controller: "HomieBundle:Admin:confirmCheckout"}

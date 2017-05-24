@@ -12,6 +12,38 @@ use Symfony\Component\Serializer\Serializer;
 
 class CookController extends Controller
 {
+    public function homeAction() {
+        $em = $this->getDoctrine()->getManager();
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
+
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByConfirm($valid);
+        $checkoutSorts = [];
+
+        foreach ($checkouts as $checkout) {
+            $userId = $checkout->getClient()->getId();
+            $checkoutSorts[$userId][] = $checkout;
+        }
+
+        return $this->render('@Homie/Admin/admin_home.html.twig',array(
+            'checkoutSorts' => $checkoutSorts
+        ));
+    }
+
+    public function confirmCheckoutAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $userId = $request->query->get('id');
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
+        $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+
+        foreach ($checkouts as $checkout) {
+            $checkout->setConfirm($valid);
+        }
+        $em->flush();
+        $response = new Response("commande confirmée");
+        return $response;
+    }
+
     public function showMealAction() {
         $em =$this->getDoctrine()->getManager();
         $user = $this->getUser();

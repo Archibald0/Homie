@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col s10 offset-s1">
-                {% for checkoutSort in checkoutSorts %}
+                {% for key, checkoutSort in checkoutSorts %}
                     {% set price = 0 %}
                     <div class="row">
                         <div class="col s12">
@@ -18,13 +18,13 @@
                                         <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
                                     {% endif %}
                                     <li>
-                                        <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }}</p>
+                                        <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
                                     </li>
                                     {% set price = price + checkout.meals.price * checkout.quantity %}
                                 {% endfor %}
                             </ul>
                             <p>{{ price }}€</p>
-                            <button class="btn">Confirm</button>
+                            <button class="btn confirm_btn" id="{{ key }}">Confirm</button>
                         </div>
                     </div>
                 {% endfor %}
@@ -33,4 +33,25 @@
 
     </div>
 </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.confirm_btn').click( function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url: '{{ path('homie_admin_checkout_confirm') }}',
+                    data: {'id' : id},
+
+                    success: function (response) {
+                        alert(response);
+                        $(this).parent().slideUp(200);
+                    }
+                })
+            })
+        })
+    </script>
 {% endblock %}
