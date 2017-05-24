@@ -13,7 +13,8 @@
                                 {% for key, checkout in checkoutSort %}
                                     {% if key == 0 %}
                                         <h3>{{ checkout.client.username }}</h3>
-                                        <p>{{ checkout.address }}</p>
+                                        <p>phone: 0{{ checkout.client.phone }}</p>
+                                        <p>address: {{ checkout.address }}</p>
                                         <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
                                     {% endif %}
                                     <li>
