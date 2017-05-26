@@ -15,7 +15,22 @@ class Checkout
     /**
      * @var \DateTime
      */
-    private $date;
+    private $date_send;
+
+    /**
+     * @var \DateTime
+     */
+    private $date_confirm_admin;
+
+    /**
+     * @var \DateTime
+     */
+    private $date_confirm_cook;
+
+    /**
+     * @var \DateTime
+     */
+    private $date_delivery;
 
     /**
      * @var string
@@ -59,27 +74,99 @@ class Checkout
     }
 
     /**
-     * Set date
+     * Set dateSend
      *
-     * @param \DateTime $date
+     * @param \DateTime $dateSend
      *
      * @return Checkout
      */
-    public function setDate($date)
+    public function setDateSend($dateSend)
     {
-        $this->date = $date;
+        $this->date_send = $dateSend;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get dateSend
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getDateSend()
     {
-        return $this->date;
+        return $this->date_send;
+    }
+
+    /**
+     * Set dateConfirmAdmin
+     *
+     * @param \DateTime $dateConfirmAdmin
+     *
+     * @return Checkout
+     */
+    public function setDateConfirmAdmin($dateConfirmAdmin)
+    {
+        $this->date_confirm_admin = $dateConfirmAdmin;
+
+        return $this;
+    }
+
+    /**
+     * Get dateConfirmAdmin
+     *
+     * @return \DateTime
+     */
+    public function getDateConfirmAdmin()
+    {
+        return $this->date_confirm_admin;
+    }
+
+    /**
+     * Set dateConfirmCook
+     *
+     * @param \DateTime $dateConfirmCook
+     *
+     * @return Checkout
+     */
+    public function setDateConfirmCook($dateConfirmCook)
+    {
+        $this->date_confirm_cook = $dateConfirmCook;
+
+        return $this;
+    }
+
+    /**
+     * Get dateConfirmCook
+     *
+     * @return \DateTime
+     */
+    public function getDateConfirmCook()
+    {
+        return $this->date_confirm_cook;
+    }
+
+    /**
+     * Set dateDelivery
+     *
+     * @param \DateTime $dateDelivery
+     *
+     * @return Checkout
+     */
+    public function setDateDelivery($dateDelivery)
+    {
+        $this->date_delivery = $dateDelivery;
+
+        return $this;
+    }
+
+    /**
+     * Get dateDelivery
+     *
+     * @return \DateTime
+     */
+    public function getDateDelivery()
+    {
+        return $this->date_delivery;
     }
 
     /**

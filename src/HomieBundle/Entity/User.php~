@@ -10,6 +10,15 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    //GENERATE CODE
+    /**
      * @var int
      */
     protected $id;

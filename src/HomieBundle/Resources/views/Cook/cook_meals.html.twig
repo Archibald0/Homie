@@ -2,9 +2,9 @@
 
 {% block main %}
     <main>
-        <div class="container">
+        <div class="container container_custom">
             <div class="row">
-                <div class="col s10 offset-s1 form_add_meal">
+                <div class="col s10 offset-s1 form_add_meal margin_top">
                     <form name="addMeal">
                         <div class="input-field col s12">
                             <select name="addMeal[meals]">
@@ -15,7 +15,7 @@
                             </select>
                             <label>Add a new meal:</label>
                         </div>
-                        <button class="btnbtn waves-effect waves-light right black" type="submit">
+                        <button class="btnbtn waves-effect waves-light right btn_custom" type="submit">
                             Add this meal
                             <i class="material-icons left">add</i>
                         </button>
@@ -70,10 +70,10 @@
 
                         var deleteBtn = $(document.createElement('a'));
                         deleteBtn.attr({
-                            'class': 'waves-effect waves-light btn black delete_btn',
+                            'class': 'waves-effect waves-light btn btn_custom delete_btn',
                             'id': response.id,
                         });
-                        deleteBtn.text('supprimer');
+                        deleteBtn.text('Delete');
 
                         card.append(nameCard, delayCard, deleteBtn);
 

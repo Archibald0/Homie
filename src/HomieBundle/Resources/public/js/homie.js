@@ -10,6 +10,12 @@ cardResize(1);
 $(document).ready(function() {
     $('select').material_select();
     $(".button-collapse").sideNav();
+    $('ul.tabs').tabs();
+
+    $('.show_meals').click( function (e) {
+        e.preventDefault();
+        $(this).next().slideToggle(100);
+    });
 
     $(window).resize(function () {
         cardResize(1);

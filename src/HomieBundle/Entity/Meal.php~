@@ -8,6 +8,15 @@ namespace HomieBundle\Entity;
 class Meal
 {
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    // GENERATE CODE
+    /**
      * @var integer
      */
     private $id;
@@ -48,11 +57,17 @@ class Meal
     private $users;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $availables;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->availables = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -241,5 +256,39 @@ class Meal
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add available
+     *
+     * @param \HomieBundle\Entity\available $available
+     *
+     * @return Meal
+     */
+    public function addAvailable(\HomieBundle\Entity\available $available)
+    {
+        $this->availables[] = $available;
+
+        return $this;
+    }
+
+    /**
+     * Remove available
+     *
+     * @param \HomieBundle\Entity\available $available
+     */
+    public function removeAvailable(\HomieBundle\Entity\available $available)
+    {
+        $this->availables->removeElement($available);
+    }
+
+    /**
+     * Get availables
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAvailables()
+    {
+        return $this->availables;
     }
 }

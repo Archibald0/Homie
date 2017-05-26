@@ -2,13 +2,14 @@
 
 {% block main %}
     <main>
-        <div class="container">
+        <div class="container container_custom">
             <div class="row">
-                <div class="col s10 offset-s1">
+                <div class="col s10 offset-s1 margin_top">
                     {{ form_start(formAvailable) }}
                     <input type="date" name="date" class="datepicker">
                     {{ form_widget(formAvailable.start_date.time) }}
                     {{ form_widget(formAvailable.end_date.time) }}
+                    {{ form_widget(formAvailable.meals) }}
                     <input type="hidden" name="userId" value="{{ cook.id }}">
                     {{ form_widget(formAvailable.submit) }}
                     {{ form_end(formAvailable, {'render_rest': false}) }}
@@ -16,12 +17,22 @@
             </div>
 
             <div class="row">
-                <div class="col s10 offest-s1" id="showAvailable">
-                    <ul>
+                <div class="col s10 offset-s1" id="showAvailable">
+                    <ul class="center-align">
                         {% for available in availables %}
-                            <li>
-                                <p>{{ available.startDate|date("m/d/Y") }}:</p>
+                            <li class="available">
+                                <p>Date: {{ available.startDate|date("m/d/Y") }}</p>
                                 <p>from: {{ available.startDate|date("h:i") }} to {{ available.endDate|date("h:i") }}</p>
+                                <ul>
+                                    <li class="show_meals">Show Meals</li>
+                                    <li class="show_meal">
+                                        <ul>
+                                            {% for meal in available.meals %}
+                                            <li>{{ meal.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </ul>
                                 <button class="waves-effect waves-light btn black delete_btn" id="{{ available.id }}">
                                     Delete
                                 </button>

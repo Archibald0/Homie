@@ -74,7 +74,7 @@ class AdminController extends Controller
             $cooker->setDescription($description);
             $cooker->setUserGroup($cookerType);
             $cooker->setPhoto($photo);
-            $cooker->setOnline(1);
+            $cooker->setOnline(0);
             $em->persist($cooker);
             $em->flush();
 
@@ -282,7 +282,8 @@ class AdminController extends Controller
 
     public function editMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('homiebundle_meal')['id'];
+        $id = $request->request->get('id');
+
         $meal = $em->getRepository('HomieBundle:Meal')->findOneById($id);
 
         if($request->isXmlHttpRequest()) {
@@ -330,16 +331,26 @@ class AdminController extends Controller
     public function showCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
+        $validCook = $em->getRepository('HomieBundle:Confirm')->findOneById(4);
 
         $checkouts = $em->getRepository('HomieBundle:Checkout')->findByConfirm($valid);
+        $checkoutCooks = $em->getRepository('HomieBundle:Checkout')->findByConfirm($validCook);
         $checkoutSorts = [];
+        $checkoutCookSorts = [];
+
         foreach ($checkouts as $checkout) {
             $userId = $checkout->getClient()->getId();
             $checkoutSorts[$userId][] = $checkout;
         }
 
+        foreach ($checkoutCooks as $checkout) {
+            $userId = $checkout->getClient()->getId();
+            $checkoutCookSorts[$userId][] = $checkout;
+        }
+
         return $this->render('@Homie/Admin/admin_home.html.twig',array(
-                'checkoutSorts' => $checkoutSorts
+                'checkoutSorts' => $checkoutSorts,
+                'checkoutCookSorts' => $checkoutCookSorts
         ));
     }
 
@@ -349,12 +360,35 @@ class AdminController extends Controller
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
         $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
         $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {
             $checkout->setConfirm($valid);
+            $checkout->setDateConfirmAdmin($date);
         }
+
         $em->flush();
         $response = new Response("commande confirmée");
+
+        return $response;
+    }
+
+    public function deliveryCheckoutAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $userId = $request->query->get('id');
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(5);
+        $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $date = new \DateTime();
+
+        foreach ($checkouts as $checkout) {
+            $checkout->setConfirm($valid);
+            $checkout->setDateDelivery($date);
+        }
+
+        $em->flush();
+        $response = new Response("Delivery Done!");
+
         return $response;
     }
 }

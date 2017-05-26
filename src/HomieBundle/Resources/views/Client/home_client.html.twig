@@ -6,7 +6,7 @@
             <div class="row">
                 {% for cook in cooks %}
                     {% for meal in cook.meals %}
-                        <div class="col s4 card">
+                        <div class="col s12 card card_custom margin_top">
                             <div class="card-image waves-effect waves-block waves-light">
                                 <img class="activator" src="{{ asset('uploads/photos/') }}{{ meal.photo.url }}">
                             </div>
@@ -15,7 +15,14 @@
                                 <p>{{ cook.username }}, price: {{ meal.price }}€</p>
                             </div>
                             <div class="card-action">
-                                <a class="buy_btn" id="{{ cook.id }}-{{ meal.id }}">Buy</a>
+                                <form name="form_buy">
+                                    <p class="range-field">
+                                        <label for="#quantity">Quantity:</label>
+                                        <input type="range" name="quantity" id="quantity" min="1" max="10" value="1" />
+                                    </p>
+                                    <input type="hidden" name="ids" value="{{ cook.id }}-{{ meal.id }}" />
+                                    <button type="submit" class="btn btn_custom">Buy</button>
+                                </form>
                             </div>
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">{{ meal.name }}<i class="material-icons right">close</i></span>
@@ -32,16 +39,21 @@
 {% block javascripts %}
     <script>
         $(document).ready( function () {
-            $('.buy_btn').click( function (e) {
+            $('form[name="form_buy"]').submit( function (e) {
                 e.preventDefault();
-                var data = {'ids': $(this).attr('id')} ;
+                 var data = new FormData($(this)[0]);
                 $.ajax({
-                    method: 'get',
+                    method: 'post',
                     url: "{{ path('homie_client_buy') }}",
+                    processData: false,
+                    contentType: false,
                     data: data,
 
                     success: function (response) {
-                        alert(response);
+                        console.log(response);
+                        $('.checkNb').text(response.checkoutNb)
+                        alert(response.msg);
+
                     }
 
                 })

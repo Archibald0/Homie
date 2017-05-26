@@ -2,9 +2,9 @@
 
 {% block main %}
     <main>
-        <div class="container">
+        <div class="container container_custom">
             <div class="row">
-                <div class="col s10 offset-s1">
+                <div class="col s10 offset-s1 margin_top">
                     {% for key, checkoutSort in checkoutSorts %}
                         <div class="row">
                             <div class="col s12">
@@ -14,14 +14,14 @@
                                             <h3>{{ checkout.client.username }}</h3>
                                             <p>phone: 0{{ checkout.client.phone }}</p>
                                             <p>address: {{ checkout.address }}</p>
-                                            <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
+                                            <p>{{ checkout.dateConfirmAdmin|date('d-m-Y h:i') }}</p>
                                         {% endif %}
                                         <li>
                                             <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <button class="btn confirm_btn" id="{{ key }}">Confirm</button>
+                                <button class="btn confirm_btn btn_custom" id="{{ key }}">Confirm</button>
                             </div>
                         </div>
                     {% endfor %}

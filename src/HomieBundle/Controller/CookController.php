@@ -14,7 +14,8 @@ class CookController extends Controller
 {
     public function homeAction() {
         $em = $this->getDoctrine()->getManager();
-        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
+        $user = $this->getUser();
 
         $checkouts = $em->getRepository('HomieBundle:Checkout')->findByConfirm($valid);
         $checkoutSorts = [];
@@ -24,22 +25,27 @@ class CookController extends Controller
             $checkoutSorts[$userId][] = $checkout;
         }
 
-        return $this->render('@Homie/Admin/admin_home.html.twig',array(
-            'checkoutSorts' => $checkoutSorts
+        return $this->render('@Homie/Cook/cook_home.html.twig',array(
+            'checkoutSorts' => $checkoutSorts,
+            'cook' => $user
         ));
     }
 
     public function confirmCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $userId = $request->query->get('id');
-        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
+        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(4);
         $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
         $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {
             $checkout->setConfirm($valid);
+            $checkout->setDateConfirmCook($date);
         }
+
         $em->flush();
+
         $response = new Response("commande confirmée");
         return $response;
     }
@@ -49,6 +55,7 @@ class CookController extends Controller
         $user = $this->getUser();
         $meals = $user->getMeals();
         $mealLists = $em->getRepository('HomieBundle:Meal')->findAll();
+
         return $this->render('@Homie/Cook/cook_meals.html.twig', array(
             'mealLists' => $mealLists,
             'meals' => $meals,
@@ -67,9 +74,10 @@ class CookController extends Controller
 
             $em->flush();
 
-            $encoders = array(new JsonEncoder()) ;
-            $normalizer = array(new ObjectNormalizer()) ;
-            $serializer = new Serializer($normalizer, $encoders);
+            $encoders = new JsonEncoder() ;
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array('users', 'availables'));
+            $serializer = new Serializer(array($normalizer), array($encoders));
             $jsonMeal = $serializer->serialize($meal, 'json');
             $response = new response($jsonMeal);
 
@@ -145,16 +153,27 @@ class CookController extends Controller
             $start_date = new \DateTime($start_date);
             $end_date = new\DateTime($end_date);
 
+            $meals = $request->request->get('homiebundle_available')['meals'];
+
             $available->setStartDate($start_date);
             $available->setEndDate($end_date);
             $available->setUser($user);
 
+            foreach ($meals as $mealID) {
+                $meal = $em->getRepository('HomieBundle:Meal')->findOneById($mealID);
+                $available->addMeal($meal);
+            }
+
             $em->persist($available);
             $em->flush();
 
-            $encoders = array(new JsonEncoder()) ;
-            $normalizer = array(new ObjectNormalizer()) ;
-            $serializer = new Serializer($normalizer, $encoders);
+            $encoders = new JsonEncoder() ;
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setIgnoredAttributes(array(
+                'user',
+                'meals'
+            ));
+            $serializer = new Serializer(array($normalizer), array($encoders));
             $jsonAvailable = $serializer->serialize($available, 'json');
             $response = new response($jsonAvailable);
 

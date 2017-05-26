@@ -55,3 +55,7 @@ homie_admin_meal_edit:
 homie_admin_checkout_confirm:
     path: /confirm
     defaults: {_controller: "HomieBundle:Admin:confirmCheckout"}
+
+homie_admin_checkout_done:
+    path: /done
+    defaults: {_controller: "HomieBundle:Admin:deliveryCheckout"}

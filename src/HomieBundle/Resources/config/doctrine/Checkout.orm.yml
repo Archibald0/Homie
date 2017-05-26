@@ -9,7 +9,19 @@ HomieBundle\Entity\Checkout:
             generator:
                 strategy: AUTO
     fields:
-        date:
+        date_send:
+            type: datetime
+            nullable: true
+
+        date_confirm_admin:
+            type: datetime
+            nullable: true
+
+        date_confirm_cook:
+            type: datetime
+            nullable: true
+
+        date_delivery:
             type: datetime
             nullable: true
 
@@ -31,6 +43,7 @@ HomieBundle\Entity\Checkout:
         client:
             targetEntity: HomieBundle\Entity\User
             inversedBy: checkouts
+
 
         confirm:
             targetEntity: HomieBundle\Entity\Confirm

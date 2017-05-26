@@ -4,20 +4,20 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col s10 offset-s1">
-                <ul>
+            <div class="col s10 offset-s1 margin_top">
+                <div class="row row_custom">
                     {% for checkout in checkouts %}
-                        <li>
-                            <p>{{ checkout.meals.name }} {{ checkout.quantity }}</p>
-                            <p>{{ checkout.cook.username }}</p>
-                            <a class="waves-effect waves-light btn black delete_btn" id="{{ checkout.id }}">Cancel</a>
-                        </li>
+                    <div class="col s12 checkout">
+                        <p><a class="delete_btn cross" id="{{ checkout.id }}"><i class="material-icons">close</i></a>{{ checkout.meals.name }} {{ checkout.quantity }} </p>
+                        <p>Cook: {{ checkout.cook.username }}</p>
+                    </div>
                     {% endfor %}
-                </ul>
-                <p>Total: {{ prices }}€</p>
+                    <p class="totalPrice">Total: {{ prices }}€</p>
+                </div>
             </div>
-
-            <a href="{{ path('homie_client_checkout_purchase') }}" class="waves-effect waves-light btn black" >Purchase</a>
+            <div class="col S12">
+                <a href="{{ path('homie_client_checkout_purchase') }}" class="waves-effect waves-light btn btn_custom center-align">Purchase</a>
+            </div>
         </div>
     </div>
 </main>
@@ -34,8 +34,12 @@
                     url:  "{{ path('homie_client_checkout_delete') }}",
                     data: {'id': id},
                     success: function (response) {
-                        alert(response);
-                        $('#' + id).parent().slideUp(800).remove();
+                        console.log(response);
+                        $('.checkNb').text(response.checkoutNb);
+                        $('.totalPrice').text('Total: ' + response.totalPrice + "€");
+
+                        alert(response.msg);
+                        $('#' + id).parent().parent().slideUp(800).remove();
                     }
                 });
             });

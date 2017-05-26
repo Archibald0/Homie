@@ -35,7 +35,7 @@ class ClientController extends Controller
         ));
     }
 
-    public function showMealClientAction(Request $request) {
+    public function showMealClientAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
@@ -58,9 +58,12 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $client = $this->getUser();
         $checkout = new Checkout();
+        $confirm = $em->getRepository('HomieBundle:Confirm')->findOneById(1);
 
-        $ids = $request->query->get('ids');
+        $ids = $request->request->get('ids');
         $ids = explode("-", $ids);
+
+        $quantity = $request->request->get('quantity');
 
         $cookId = $ids[0];
         $cook = $em->getRepository("HomieBundle:User")->findOneById($cookId);
@@ -71,18 +74,22 @@ class ClientController extends Controller
         $checkout->setClient($client);
         $checkout->setCook($cook);
         $checkout->setMeals($meal);
-        $checkout->setQuantity(1);
+        $checkout->setQuantity($quantity);
+        $checkout->setConfirm($confirm);
 
         $em->persist($checkout);
         $em->flush();
 
-        $response = new Response('Plat ajouté');
+        $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($client);
+        $msg = 'Meal Added';
+        $response = new Response(json_encode(array('msg' => $msg, 'checkoutNb' => $checkoutNb)));
+        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
 
     }
 
-    public function checkoutAction(Request $request) {
+    public function checkoutAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
@@ -92,7 +99,8 @@ class ClientController extends Controller
         $prices = 0;
         foreach ($checkouts as $checkout) {
             $price = $checkout->getMeals()->getPrice();
-            $prices += $price;
+            $quantity = $checkout->getQuantity();
+            $prices += ($price * $quantity);
         }
 
         return $this->render('HomieBundle:Client:checkout.html.twig', array(
@@ -104,14 +112,27 @@ class ClientController extends Controller
 
     public function deleteCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
+        $client = $this->getUser();
 
         $checkoutId = $request->query->get('id');
         $checkout = $em->getRepository('HomieBundle:Checkout')->findOneById($checkoutId);
 
         $em->remove($checkout);
         $em->flush();
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckouts($client);
 
-        $response = new Response("Meal canceled");
+        $prices = 0;
+        foreach ($checkouts as $checkout) {
+            $price = $checkout->getMeals()->getPrice();
+            $quantity = $checkout->getQuantity();
+            $prices += ($price * $quantity);
+        }
+
+        $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($client);
+        $msg = 'Meal Canceled';
+        $response = new Response(json_encode(array('msg' => $msg, 'checkoutNb' => $checkoutNb, 'totalPrice' => $prices)));
+        $response->headers->set('Content-Type', 'application/json');
+
 
         return $response;
     }
@@ -150,7 +171,7 @@ class ClientController extends Controller
 
         foreach ($checkouts as $checkout) {
             $checkout->setConfirm($valid);
-            $checkout->setDate($date);
+            $checkout->setDateSend($date);
         }
 
         $em->flush();

@@ -16,8 +16,10 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
         $userId = $user->getId();
         return $this->createQueryBuilder('c')
             ->andWhere('c.client = :userid')
+            ->andWhere('c.confirm = :sendid')
             ->setParameter('userid', $userId)
-            ->select('COUNT(c.id)')
+            ->setParameter('sendid', 1)
+            ->select('SUM(c.quantity)')
             ->getQuery()
             ->getSingleScalarResult();
     }

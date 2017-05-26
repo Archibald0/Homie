@@ -26,6 +26,7 @@ HomieBundle\Entity\User:
 
         online:
             type: boolean
+            nullable: true
 
     oneToMany:
         availables:
@@ -38,7 +39,6 @@ HomieBundle\Entity\User:
             targetEntity: HomieBundle\Entity\Checkout
             mappedBy: client
             nullable: true
-            cascade: ['all']
 
     manyToMany:
         meals:

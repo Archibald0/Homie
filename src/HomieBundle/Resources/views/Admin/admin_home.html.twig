@@ -4,32 +4,72 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col s10 offset-s1">
-                {% for key, checkoutSort in checkoutSorts %}
-                    {% set price = 0 %}
-                    <div class="row">
-                        <div class="col s12">
-                            <ul>
-                                {% for key, checkout in checkoutSort %}
-                                    {% if key == 0 %}
-                                        <h3>{{ checkout.client.username }}</h3>
-                                        <p>phone: 0{{ checkout.client.phone }}</p>
-                                        <p>address: {{ checkout.address }}</p>
-                                        <p>{{ checkout.date|date('d-m-Y h:i') }}</p>
-                                    {% endif %}
-                                    <li>
-                                        <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
-                                    </li>
-                                    {% set price = price + checkout.meals.price * checkout.quantity %}
-                                {% endfor %}
-                            </ul>
-                            <p>{{ price }}€</p>
-                            <button class="btn confirm_btn" id="{{ key }}">Confirm</button>
-                        </div>
+            <div class="col s12 margin_top">
+                <ul class="tabs">
+                    <li class="tab col s5 offset-s1"><a class="active" href="#Checkouts">Checkouts</a></li>
+                    <li class="tab col s5"><a href="#Delivery">Delivery</a></li>
+                </ul>
+            </div>
+            <div id="Checkouts" class="col s12">
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        {% for key, checkoutSort in checkoutSorts %}
+                            {% set price = 0 %}
+                            <div class="row checkout_admin">
+                                <div class="col s12">
+                                    <ul>
+                                        {% for key, checkout in checkoutSort %}
+                                            {% if key == 0 %}
+                                                <h3>{{ checkout.client.username }}</h3>
+                                                <p>phone: 0{{ checkout.client.phone }}</p>
+                                                <p>address: {{ checkout.address }}</p>
+                                                <p>{{ checkout.dateSend|date('d-m-Y h:i') }}</p>
+                                            {% endif %}
+                                            <li>
+                                                <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
+                                            </li>
+                                            {% set price = price + checkout.meals.price * checkout.quantity %}
+                                        {% endfor %}
+                                    </ul>
+                                    <p>{{ price }}€</p>
+                                    <button class="btn confirm_btn red" id="{{ key }}">Confirm</button>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                </div>
+            </div>
+            <div id="Delivery" class="col s12">
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        {% for key, checkoutCookSort in checkoutCookSorts %}
+                            {% set price = 0 %}
+                            <div class="row checkout_admin">
+                                <div class="col s12">
+                                    <ul>
+                                        {% for key, checkout in checkoutCookSort %}
+                                            {% if key == 0 %}
+                                                <h3>{{ checkout.client.username }}</h3>
+                                                <p>phone: 0{{ checkout.client.phone }}</p>
+                                                <p>address: {{ checkout.address }}</p>
+                                                <p>{{ checkout.dateConfirmCook|date('d-m-Y h:i') }}</p>
+                                            {% endif %}
+                                            <li>
+                                                <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
+                                            </li>
+                                            {% set price = price + checkout.meals.price * checkout.quantity %}
+                                        {% endfor %}
+                                    </ul>
+                                    <p>{{ price }}€</p>
+                                    <button class="btn confirm_delivery_btn red" id="{{ key }}">Done</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
+
 
     </div>
 </main>
@@ -52,6 +92,21 @@
                     }
                 })
             })
-        })
+
+            $('.confirm_delivery_btn').click( function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url: '{{ path('homie_admin_checkout_done') }}',
+                    data: {'id' : id},
+
+                    success: function (response) {
+                        alert(response);
+                        $(this).parent().remove();
+                    }
+                })
+            })
+        });
     </script>
 {% endblock %}
