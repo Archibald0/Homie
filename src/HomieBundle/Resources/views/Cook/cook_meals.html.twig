@@ -3,10 +3,10 @@
 {% block main %}
     <main>
         <div class="container container_custom">
-            <div class="row">
+            <div class="row row_custom">
                 <div class="col s10 offset-s1 form_add_meal margin_top">
                     <form name="addMeal">
-                        <div class="input-field col s12">
+                        <div class="input-field">
                             <select name="addMeal[meals]">
                                 <option value="" disabled selected>Choose Meal</option>
                                 {% for mealList in mealLists %}
@@ -23,16 +23,18 @@
                 </div>
             </div>
 
-            <div class="row">
-                <ul id="show_meals">
-                    {% for meal in meals %}
-                        <li>
-                            <h3>{{ meal.name }}</h3>
-                            <p>{{ meal.delay }}</p>
-                            <a class="waves-effect waves-light btn black delete_btn" id="{{ meal.id }}">Delete</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <div class="row row_custom">
+                <div class="col s10 offset-s1">
+                    <ul id="show_meals align-center">
+                        {% for meal in meals %}
+                            <li class="show_meal_cook">
+                                <h3>{{ meal.name }}</h3>
+                                <p>Time: {{ meal.delay }} </p>
+                                <a class="waves-effect waves-light btn btn_custom delete_btn" id="{{ meal.id }}">Delete</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </main>

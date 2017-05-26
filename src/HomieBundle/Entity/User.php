@@ -26,12 +26,52 @@ class User extends BaseUser
     /**
      * @var string
      */
-    private $address1;
+    private $street;
+
+    /**
+     * @var integer
+     */
+    private $zip_code;
 
     /**
      * @var string
      */
-    private $address2;
+    private $town;
+
+    /**
+     * @var string
+     */
+    private $digicode;
+
+    /**
+     * @var string
+     */
+    private $complement;
+
+    /**
+     * @var string
+     */
+    private $street2;
+
+    /**
+     * @var integer
+     */
+    private $zip_code2;
+
+    /**
+     * @var string
+     */
+    private $town2;
+
+    /**
+     * @var string
+     */
+    private $digicode2;
+
+    /**
+     * @var string
+     */
+    private $complement2;
 
     /**
      * @var integer
@@ -75,51 +115,243 @@ class User extends BaseUser
 
 
     /**
-     * Set address1
+     * Set street
      *
-     * @param string $address1
+     * @param string $street
      *
      * @return User
      */
-    public function setAddress1($address1)
+    public function setStreet($street)
     {
-        $this->address1 = $address1;
+        $this->street = $street;
 
         return $this;
     }
 
     /**
-     * Get address1
+     * Get street
      *
      * @return string
      */
-    public function getAddress1()
+    public function getStreet()
     {
-        return $this->address1;
+        return $this->street;
     }
 
     /**
-     * Set address2
+     * Set zipCode
      *
-     * @param string $address2
+     * @param integer $zipCode
      *
      * @return User
      */
-    public function setAddress2($address2)
+    public function setZipCode($zipCode)
     {
-        $this->address2 = $address2;
+        $this->zip_code = $zipCode;
 
         return $this;
     }
 
     /**
-     * Get address2
+     * Get zipCode
+     *
+     * @return integer
+     */
+    public function getZipCode()
+    {
+        return $this->zip_code;
+    }
+
+    /**
+     * Set town
+     *
+     * @param string $town
+     *
+     * @return User
+     */
+    public function setTown($town)
+    {
+        $this->town = $town;
+
+        return $this;
+    }
+
+    /**
+     * Get town
      *
      * @return string
      */
-    public function getAddress2()
+    public function getTown()
     {
-        return $this->address2;
+        return $this->town;
+    }
+
+    /**
+     * Set digicode
+     *
+     * @param string $digicode
+     *
+     * @return User
+     */
+    public function setDigicode($digicode)
+    {
+        $this->digicode = $digicode;
+
+        return $this;
+    }
+
+    /**
+     * Get digicode
+     *
+     * @return string
+     */
+    public function getDigicode()
+    {
+        return $this->digicode;
+    }
+
+    /**
+     * Set complement
+     *
+     * @param string $complement
+     *
+     * @return User
+     */
+    public function setComplement($complement)
+    {
+        $this->complement = $complement;
+
+        return $this;
+    }
+
+    /**
+     * Get complement
+     *
+     * @return string
+     */
+    public function getComplement()
+    {
+        return $this->complement;
+    }
+
+    /**
+     * Set street2
+     *
+     * @param string $street2
+     *
+     * @return User
+     */
+    public function setStreet2($street2)
+    {
+        $this->street2 = $street2;
+
+        return $this;
+    }
+
+    /**
+     * Get street2
+     *
+     * @return string
+     */
+    public function getStreet2()
+    {
+        return $this->street2;
+    }
+
+    /**
+     * Set zipCode2
+     *
+     * @param integer $zipCode2
+     *
+     * @return User
+     */
+    public function setZipCode2($zipCode2)
+    {
+        $this->zip_code2 = $zipCode2;
+
+        return $this;
+    }
+
+    /**
+     * Get zipCode2
+     *
+     * @return integer
+     */
+    public function getZipCode2()
+    {
+        return $this->zip_code2;
+    }
+
+    /**
+     * Set town2
+     *
+     * @param string $town2
+     *
+     * @return User
+     */
+    public function setTown2($town2)
+    {
+        $this->town2 = $town2;
+
+        return $this;
+    }
+
+    /**
+     * Get town2
+     *
+     * @return string
+     */
+    public function getTown2()
+    {
+        return $this->town2;
+    }
+
+    /**
+     * Set digicode2
+     *
+     * @param string $digicode2
+     *
+     * @return User
+     */
+    public function setDigicode2($digicode2)
+    {
+        $this->digicode2 = $digicode2;
+
+        return $this;
+    }
+
+    /**
+     * Get digicode2
+     *
+     * @return string
+     */
+    public function getDigicode2()
+    {
+        return $this->digicode2;
+    }
+
+    /**
+     * Set complement2
+     *
+     * @param string $complement2
+     *
+     * @return User
+     */
+    public function setComplement2($complement2)
+    {
+        $this->complement2 = $complement2;
+
+        return $this;
+    }
+
+    /**
+     * Get complement2
+     *
+     * @return string
+     */
+    public function getComplement2()
+    {
+        return $this->complement2;
     }
 
     /**

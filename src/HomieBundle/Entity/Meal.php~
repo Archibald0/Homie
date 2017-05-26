@@ -265,7 +265,7 @@ class Meal
      *
      * @return Meal
      */
-    public function addAvailable(\HomieBundle\Entity\available $available)
+    public function addAvailable(\HomieBundle\Entity\Available $available)
     {
         $this->availables[] = $available;
 
@@ -277,7 +277,7 @@ class Meal
      *
      * @param \HomieBundle\Entity\available $available
      */
-    public function removeAvailable(\HomieBundle\Entity\available $available)
+    public function removeAvailable(\HomieBundle\Entity\Available $available)
     {
         $this->availables->removeElement($available);
     }
