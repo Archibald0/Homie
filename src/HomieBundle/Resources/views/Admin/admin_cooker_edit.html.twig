@@ -17,15 +17,20 @@
         <div class="row">
             <div class="col s10 offset-s1">
                 {{ form_start(formCooker) }}
-                {{ form_row(formCooker.id) }}
-                {{ form_row(formCooker.name) }}
-                {{ form_row(formCooker.forname) }}
-                {{ form_row(formCooker.address1) }}
+                {{ form_row(formCooker.username) }}
+                {{ form_row(formCooker.plainPassword.first) }}
+                {{ form_row(formCooker.plainPassword.second) }}
+                {{ form_row(formCooker.street) }}
+                {{ form_row(formCooker.zip_code) }}
+                {{ form_row(formCooker.town) }}
+                {{ form_row(formCooker.town) }}
+                {{ form_row(formCooker.digicode) }}
+                {{ form_row(formCooker.complement) }}
                 {{ form_row(formCooker.phone) }}
                 {{ form_row(formCooker.email) }}
                 {{ form_row(formCooker.description) }}
                 <button class="btn waves-effect waves-light right black" type="submit" name="action" id="{{ cooker.id }}">
-                    Add Cooker
+                    Edit Cook
                     <i class="material-icons left">add</i>
                 </button>
                 {{ form_end(formCooker) }}
@@ -64,18 +69,6 @@
                         inputElt.insertBefore($inputToken);
                     }
                 })
-            });
-
-            $('form[name="homiebundle_user"]').submit( function (e) {
-                e.preventDefault();
-                var $data = new FormData($(this)[0]);
-                $.ajax({
-                    method: 'post',
-                    url: '{{ path('homie_cooker_edit') }}',
-                    processData: false,
-                    contentType: false,
-                    data: $data,
-                });
             });
         });
     </script>

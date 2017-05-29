@@ -4,6 +4,7 @@ namespace HomieBundle\Controller;
 
 use HomieBundle\Entity\Checkout;
 use HomieBundle\Entity\User;
+use HomieBundle\Form\CheckoutType;
 use HomieBundle\Form\ClientType;
 use HomieBundle\HomieBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -165,19 +166,80 @@ class ClientController extends Controller
         $user = $this->getUser();
         $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($user);
 
+        return $this->render('@Homie/Client/confirm_checkout.html.twig', array(
+            'checkoutNb' => $checkoutNb,
+        ));
+    }
+
+    public function purchaseAddressAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        $checkout = new Checkout();
+        $formCheckout = $this->createForm("HomieBundle\Form\CheckoutType", $checkout);
+        $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($user);
+
         $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckouts($user);
+
+        return $this->render('@Homie/Client/address_checkout.html.twig', array(
+            'formCheckout' => $formCheckout->createView(),
+            'user' => $user,
+            'checkouts' => $checkouts,
+            'checkoutNb' => $checkoutNb
+        ));
+
+
+    }
+
+    public function purchaseAddressSendAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $address = $request->query->get('address');
+        $client = $this->getUser();
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckouts($client);
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
         $date = new \DateTime();
 
+        if($address == 'address1') {
+            $street = $client->getStreet();
+            $zipCode = $client->getZipCode();
+            $town = $client->getTown();
+            $digicode = $client->getDigicode();
+            $complement = $client->getComplement();
+
+            $response = new Response('ok');
+        }
+        elseif ($address == 'address2') {
+            $street = $client->getStreet2();
+            $zipCode = $client->getZipCode2();
+            $town = $client->getTown2();
+            $digicode = $client->getDigicode2();
+            $complement = $client->getComplement2();
+
+            $response = new Response('ok');
+        }
+        else {
+            $formData = $request->request->get('homiebundle_checkout');
+            $street = $formData['street'];
+            $zipCode = $formData['zip_code'];
+            $town = $formData['town'];
+            $digicode = $formData['digicode'];
+            $complement = $formData['complement'];
+
+            $response = new Response('ok');
+        }
+
         foreach ($checkouts as $checkout) {
+            $checkout->setStreet($street);
+            $checkout->setZipCode($zipCode);
+            $checkout->setTown($town);
+            $checkout->setDigicode($digicode);
+            $checkout->setComplement($complement);
             $checkout->setConfirm($valid);
             $checkout->setDateSend($date);
         }
 
         $em->flush();
 
-        return $this->render('@Homie/Client/confirm_checkout.html.twig', array(
-            'checkoutNb' => $checkoutNb,
-        ));
+        return $response;
     }
 }

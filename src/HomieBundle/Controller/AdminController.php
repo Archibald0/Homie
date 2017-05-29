@@ -26,6 +26,7 @@ class AdminController extends Controller
             );
         $cooker = new User();
         $photo = new Photo();
+        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
 
         $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
         $formCooker = $this->createForm("HomieBundle\Form\CookerType", $cooker);
@@ -36,6 +37,10 @@ class AdminController extends Controller
             $photoId = $request->request->get('app_user_registration_photo_id');
             $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
             $cooker->setPhoto($photo);
+            $cooker->setUserGroup($cookerType);
+            $cooker->addRole('ROLE_COOKER');
+            $cooker->setEnabled(1);
+            $cooker->setOnline(0);
 
             $em->persist($cooker);
             $em->flush();
@@ -53,14 +58,8 @@ class AdminController extends Controller
     public function addCookerAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $cooker = new User();
-        $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
-        $cooker->setUserGroup($cookerType);
-        $cooker->addRole('ROLE_COOKER');
-        $cooker->setEnabled(1);
-        $cooker->setOnline(0);
 
         if($request->isXmlHttpRequest()) {
-            $address1 = $request->request->get('homiebundle_user')['address1'];
             $phone = $request->request->get('homiebundle_user')['phone'];
             $email = $request->request->get('homiebundle_user')['email'];
             $description = $request->request->get('homiebundle_user')['description'];
@@ -74,7 +73,8 @@ class AdminController extends Controller
             $cooker->setDescription($description);
             $cooker->setUserGroup($cookerType);
             $cooker->setPhoto($photo);
-            $cooker->setOnline(0);
+
+
             $em->persist($cooker);
             $em->flush();
 
@@ -126,56 +126,18 @@ class AdminController extends Controller
         $photo = $cooker->getPhoto();
         $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
 
+        $formCooker->handleRequest($request);
+
+        if ($formCooker->isSubmitted() && $formCooker->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('homie_admin_cooker');
+        }
+
         return $this->render('HomieBundle:Admin:admin_cooker_edit.html.twig', array(
             'formCooker' => $formCooker->createView(),
             'formPhoto' => $formPhoto->createView(),
             'cooker' => $cooker,
         ));
-    }
-
-    public function editCookerAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->request->get('homiebundle_user')['id'];
-        $cooker = $em->getRepository('HomieBundle:User')->findOneById($id);
-
-        if($request->isXmlHttpRequest()) {
-
-            $address1 = $request->request->get('homiebundle_user')['address1'];
-            $phone = $request->request->get('homiebundle_user')['phone'];
-            $email = $request->request->get('homiebundle_user')['email'];
-            $description = $request->request->get('homiebundle_user')['description'];
-            $photoId = $request->request->get('photo_id');
-
-            $cooker->setAddress1($address1);
-            $cooker->setPhone($phone);
-            $cooker->setEmail($email);
-            $cooker->setDescription($description);
-
-            if($photoId !== null) {
-                $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
-                $cooker->setPhoto($photo);
-            }
-
-            $em->persist($cooker);
-            $em->flush();
-
-            $cookers = $em->getRepository('HomieBundle:User')->findByUserGroup(2);
-
-            $cooker = $cookers[count($cookers)-1];
-
-            $encoders = array(new JsonEncoder()) ;
-            $normalizer = array(new ObjectNormalizer()) ;
-            $serializer = new Serializer($normalizer, $encoders);
-
-            $jsonCooker = $serializer->serialize($cooker, 'json');
-
-            $response = new response($jsonCooker);
-
-            $response->headers->set('Content-Type', 'application/json');
-
-
-            return $response;
-        }
     }
 
     // ------------ MEAL ADMIN ------------ //

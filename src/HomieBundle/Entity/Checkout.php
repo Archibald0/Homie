@@ -33,11 +33,6 @@ class Checkout
     private $date_delivery;
 
     /**
-     * @var string
-     */
-    private $address;
-
-    /**
      * @var integer
      */
     private $quantity;
@@ -170,30 +165,6 @@ class Checkout
     }
 
     /**
-     * Set address
-     *
-     * @param string $address
-     *
-     * @return Checkout
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
      * Set quantity
      *
      * @param integer $quantity
@@ -311,5 +282,150 @@ class Checkout
     public function getConfirm()
     {
         return $this->confirm;
+    }
+    /**
+     * @var string
+     */
+    private $street;
+
+    /**
+     * @var integer
+     */
+    private $zip_code;
+
+    /**
+     * @var string
+     */
+    private $town;
+
+    /**
+     * @var string
+     */
+    private $digicode;
+
+    /**
+     * @var string
+     */
+    private $complement;
+
+
+    /**
+     * Set street
+     *
+     * @param string $street
+     *
+     * @return Checkout
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * Get street
+     *
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * Set zipCode
+     *
+     * @param integer $zipCode
+     *
+     * @return Checkout
+     */
+    public function setZipCode($zipCode)
+    {
+        $this->zip_code = $zipCode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipCode
+     *
+     * @return integer
+     */
+    public function getZipCode()
+    {
+        return $this->zip_code;
+    }
+
+    /**
+     * Set town
+     *
+     * @param string $town
+     *
+     * @return Checkout
+     */
+    public function setTown($town)
+    {
+        $this->town = $town;
+
+        return $this;
+    }
+
+    /**
+     * Get town
+     *
+     * @return string
+     */
+    public function getTown()
+    {
+        return $this->town;
+    }
+
+    /**
+     * Set digicode
+     *
+     * @param string $digicode
+     *
+     * @return Checkout
+     */
+    public function setDigicode($digicode)
+    {
+        $this->digicode = $digicode;
+
+        return $this;
+    }
+
+    /**
+     * Get digicode
+     *
+     * @return string
+     */
+    public function getDigicode()
+    {
+        return $this->digicode;
+    }
+
+    /**
+     * Set complement
+     *
+     * @param string $complement
+     *
+     * @return Checkout
+     */
+    public function setComplement($complement)
+    {
+        $this->complement = $complement;
+
+        return $this;
+    }
+
+    /**
+     * Get complement
+     *
+     * @return string
+     */
+    public function getComplement()
+    {
+        return $this->complement;
     }
 }

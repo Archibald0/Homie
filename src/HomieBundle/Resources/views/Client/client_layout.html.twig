@@ -5,16 +5,19 @@
         <nav>
             <div class="nav-wrapper">
                 <a href="{{ path('homie_client_home') }}" class="brand-logo">Homie</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse menu_btn"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{{ path('homie_client_home') }}">Home</a></li>
                     <li><a href="{{ path('homie_client_edit') }}">Edit profil</a></li>
-                    <li><span class="badge checkNb" data-badge-caption="">{{ checkoutNb }}</span><a href="{{ path('homie_client_checkout') }}"><i class="material-icons">shopping_basket</i></a></li>
+                    <li><a href="{{ path('homie_homepage') }}/logout">Logout</a></li>
+                </ul>
+                <ul class="right">
+                    <li class="checkNb"><span class="badge checkNbTxt" data-badge-caption="">{{ checkoutNb }}</span><a href="{{ path('homie_client_checkout') }}"><i class="material-icons">shopping_basket</i></a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="{{ path('homie_client_home') }}">Home</a></li>
                     <li><a href="{{ path('homie_client_edit') }}">Edit profil</a></li>
-                    <li><span class="badge checkNb" data-badge-caption="">{{ checkoutNb }}</span><a href="{{ path('homie_client_checkout') }}"><i class="material-icons">shopping_basket</i></a></li>
+                    <li><a href="{{ path('homie_homepage') }}logout">Logout</a></li>
                 </ul>
             </div>
         </nav>

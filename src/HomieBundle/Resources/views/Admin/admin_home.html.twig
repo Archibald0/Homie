@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col s12 margin_top">
                 <ul class="tabs">
-                    <li class="tab col s5 offset-s1"><a class="active" href="#Checkouts">Checkouts</a></li>
-                    <li class="tab col s5"><a href="#Delivery">Delivery</a></li>
+                    <li class="tab col s6"><a class="active" href="#Checkouts">Checkouts</a></li>
+                    <li class="tab col s6"><a href="#Delivery">Delivery</a></li>
                 </ul>
             </div>
             <div id="Checkouts" class="col s12">
@@ -20,13 +20,33 @@
                                     <ul>
                                         {% for key, checkout in checkoutSort %}
                                             {% if key == 0 %}
-                                                <h3>{{ checkout.client.username }}</h3>
-                                                <p>phone: 0{{ checkout.client.phone }}</p>
-                                                <p>address: {{ checkout.address }}</p>
-                                                <p>{{ checkout.dateSend|date('d-m-Y h:i') }}</p>
+                                                <h4>{{ checkout.client.username }}</h4>
+
+                                                <p>
+                                                    <b>phone:</b> 0{{ checkout.client.phone }}<br>
+                                                    <b>address:</b> {{ checkout.street }}<br>
+                                                    {{ checkout.zipCode }} {{ checkout.town }}<br>
+                                                    <b>digicode:</b> {{ checkout.digicode }}<br>
+                                                    <b>complement:</b> {{ checkout.complement }}
+                                                </p>
+                                                <p>
+                                                    <b>Checkout's date:</b> {{ checkout.dateSend|date('d-m-Y h:i') }}
+                                                </p>
                                             {% endif %}
                                             <li>
-                                                <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
+                                                <p class="checkoutOrder">
+                                                    <b>{{ checkout.quantity }} {{ checkout.meals.name }} from {{ checkout.cook.username }}<br></b>
+                                                </p>
+
+                                                <a class="showAddress">Show address</a>
+
+                                                <p class="cookAddress">
+                                                    {{ checkout.cook.street }}<br>
+                                                    {{ checkout.cook.zipCode }} {{ checkout.cook.town }}<br>
+                                                    tel: {{ checkout.cook.phone }}
+                                                    digicode: {{ checkout.cook.digicode }}
+                                                    complement: {{ checkout.cook.complement }}
+                                                </p>
                                             </li>
                                             {% set price = price + checkout.meals.price * checkout.quantity %}
                                         {% endfor %}

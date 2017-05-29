@@ -17,9 +17,12 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.client = :userid')
             ->andWhere('c.confirm = :sendid')
+
             ->setParameter('userid', $userId)
             ->setParameter('sendid', 1)
+
             ->select('SUM(c.quantity)')
+
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -28,7 +31,11 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
         $userId = $user->getId();
         return $this->createQueryBuilder('c')
             ->andWhere('c.client = :userid')
+            ->andWhere('c.confirm = :sendid')
+
             ->setParameter('userid', $userId)
+            ->setParameter('sendid', 1)
+
             ->getQuery()
             ->getResult();
     }
@@ -37,8 +44,28 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
         $userId = $user->getId();
         return $this->createQueryBuilder('c')
             ->andWhere('c.client = :userid')
+            ->andWhere('c.confirm = :sendid')
+
             ->setParameter('userid', $userId)
+            ->setParameter('sendid', 1)
+
             ->select('SUM(c.price)')
+
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function priceFinal(User $user) {
+        $userId = $user->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.client = :userid')
+            ->andWhere('c.confirm = :sendid')
+
+            ->setParameter('userid', $userId)
+            ->setParameter('sendid', 2)
+
+            ->select('SUM(c.price)')
+
             ->getQuery()
             ->getSingleScalarResult();
     }

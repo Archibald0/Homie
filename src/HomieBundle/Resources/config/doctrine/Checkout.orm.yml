@@ -25,7 +25,26 @@ HomieBundle\Entity\Checkout:
             type: datetime
             nullable: true
 
-        address:
+        street:
+            type: string
+            length: 255
+            nullable: true
+
+        zip_code:
+            type: integer
+            nullable: true
+
+        town:
+            type: string
+            length: 255
+            nullable: true
+
+        digicode:
+            type: string
+            length: 20
+            nullable: true
+
+        complement:
             type: string
             length: 255
             nullable: true
