@@ -1,4 +1,5 @@
-
+/* -------- Fonts ---------*/
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700');
 /*---------- Main ---------*/
 
 body{
@@ -35,6 +36,8 @@ input[type=range]::-ms-thumb {
     z-index: 0!important;
 }
 nav h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
     margin-top: 10px;
     margin-bottom: auto;
     padding: 0;
@@ -106,13 +109,18 @@ nav h1 {
 }
 
 .checkNb {
-    background-color: white;
-    color: #ff2f20!important;
+    background-color:#ff2f20!important;
+    color: white;
 }
 
-    .checkNb a {
-        color: #ff2f20;
+
+.checkNbTxt, .checkNb a {
+        color: white!important;
     }
+
+.expand_btn {
+    color: #ff2f20!important;
+}
 
 /*-------- checkout client ---------*/
 
