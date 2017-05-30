@@ -3,16 +3,24 @@
 {% block main %}
 <main>
     <div class="container">
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1 margin_top">
                 <div class="row row_custom">
                     {% for checkout in checkouts %}
                     <div class="col s12 checkout">
-                        <p><a class="delete_btn cross" id="{{ checkout.id }}"><i class="material-icons">close</i></a>{{ checkout.meals.name }} {{ checkout.quantity }} </p>
+                        <p>
+                            <a class="delete_btn cross" id="{{ checkout.id }}">
+                                <i class="material-icons">close</i>
+                            </a>
+                            {{ checkout.meals.name }} x {{ checkout.quantity }} - {{ checkout.meals.price * checkout.quantity }}€
+                        </p>
+
                         <p>Cook: {{ checkout.cook.username }}</p>
                     </div>
                     {% endfor %}
+
                     <p class="totalPrice">Total: {{ prices }}€</p>
+
                 </div>
             </div>
             <div class="col S12">

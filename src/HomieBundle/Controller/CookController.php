@@ -14,10 +14,9 @@ class CookController extends Controller
 {
     public function homeAction() {
         $em = $this->getDoctrine()->getManager();
-        $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
-        $user = $this->getUser();
+        $cook = $this->getUser();
 
-        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByConfirm($valid);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckoutCooks($cook);
         $checkoutSorts = [];
 
         foreach ($checkouts as $checkout) {
@@ -27,16 +26,19 @@ class CookController extends Controller
 
         return $this->render('@Homie/Cook/cook_home.html.twig',array(
             'checkoutSorts' => $checkoutSorts,
-            'cook' => $user
+            'cook' => $cook
         ));
     }
 
     public function confirmCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $userId = $request->query->get('id');
+        $clientId = $request->query->get('id');
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(4);
-        $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
-        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $client = $em->getRepository('HomieBundle:User')->findOneById($clientId);
+        $cook = $this->getUser();
+
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckoutClientCook($cook, $client);
+
         $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {
@@ -46,7 +48,8 @@ class CookController extends Controller
 
         $em->flush();
 
-        $response = new Response("commande confirmée");
+        $response = new Response("Confirmed!");
+
         return $response;
     }
 

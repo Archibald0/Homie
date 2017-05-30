@@ -3,6 +3,7 @@
 namespace HomieBundle\Controller;
 
 use HomieBundle\Entity\Meal;
+use HomieBundle\Entity\Meal_type;
 use HomieBundle\Entity\Photo;
 use HomieBundle\Entity\User;
 use HomieBundle\Form\MealType;
@@ -147,15 +148,20 @@ class AdminController extends Controller
 
         $meals = $em->getRepository('HomieBundle:Meal')->findBy(array(), array('name' => 'asc'));
         $meal = new Meal();
+        $mealType = new Meal_type();
         $photo = new Photo();
+        $mealTypes = $em->getRepository('HomieBundle:Meal_type')->findAll();
 
         $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
         $formMeal = $this->createForm("HomieBundle\Form\MealType", $meal);
+        $formMealType = $this->createForm("HomieBundle\Form\Meal_typeType", $mealType);
 
         return $this->render('@Homie/Admin/admin_meal.html.twig', array(
             'formMeal' => $formMeal->createView(),
             'formPhoto' => $formPhoto->createView(),
+            'formMealType' => $formMealType->createView(),
             'meals' => $meals,
+            'mealTypes' => $mealTypes
         ));
     }
 
@@ -290,8 +296,54 @@ class AdminController extends Controller
         }
     }
 
+    public function addMealTypeAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $mealType = new Meal_type();
+
+        if($request->isXmlHttpRequest()) {
+            $name = $request->request->get('homiebundle_meal_type')['name'];
+
+            $mealType->setName($name);
+
+            $em->persist($mealType);
+            $em->flush();
+
+            $mealTypes = $em->getRepository('HomieBundle:Meal_type')->findAll();
+
+            $mealType = $mealTypes[count($mealTypes)-1];
+
+            $encoders = array(new JsonEncoder()) ;
+            $normalizer = array(new ObjectNormalizer()) ;
+            $serializer = new Serializer($normalizer, $encoders);
+
+            $jsonmealType = $serializer->serialize($mealType, 'json');
+
+            $response = new response($jsonmealType);
+
+            $response->headers->set('Content-Type', 'application/json');
+
+
+            return $response;
+        }
+    }
+
+    public function deleteMealTypeAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->query->get('id');
+
+        $mealType = $em->getRepository('HomieBundle:Meal_type')->findOneById($id);
+
+
+        $em->remove($mealType);
+
+        $em->flush();
+
+        return new response('Ok');
+    }
+
     public function showCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
+
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
         $validCook = $em->getRepository('HomieBundle:Confirm')->findOneById(4);
 
@@ -321,7 +373,7 @@ class AdminController extends Controller
         $userId = $request->query->get('id');
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(3);
         $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
-        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findcheckoutbyConfirmedClient($user);
         $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {
@@ -339,8 +391,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $userId = $request->query->get('id');
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(5);
-        $user = $em->getRepository('HomieBundle:User')->findOneById($userId);
-        $checkouts = $em->getRepository('HomieBundle:Checkout')->findByClient($user);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckoutCookConfirmed($userId);
         $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {

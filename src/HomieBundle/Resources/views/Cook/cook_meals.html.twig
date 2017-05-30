@@ -25,7 +25,7 @@
 
             <div class="row row_custom">
                 <div class="col s10 offset-s1">
-                    <ul id="show_meals align-center">
+                    <ul id="show_meals" class="align-center">
                         {% for meal in meals %}
                             <li class="show_meal_cook">
                                 <h3>{{ meal.name }}</h3>
@@ -61,14 +61,14 @@
                         console.log(response);
 
                         var card = $(document.createElement('li'));
-
                         card.css('display', 'none');
+                        card.attr('class', 'show_meal_cook');
 
                         var nameCard = $(document.createElement('h3'));
                         nameCard.text(response.name);
 
                         var delayCard = $(document.createElement('p'));
-                        delayCard.text(response.delay);
+                        delayCard.text("time:" + response.delay);
 
                         var deleteBtn = $(document.createElement('a'));
                         deleteBtn.attr({
@@ -87,7 +87,7 @@
                             e.preventDefault();
                             $.ajax({
                                 method: 'get',
-                                url:  "{{ path('homie_cooker_delete') }}",
+                                url:  "{{ path('homie_cook_delete_meal') }}",
                                 data: {'id': id},
                                 success: function (response) {
                                     alert(response);
@@ -95,8 +95,8 @@
                                 }
                             });
                         });
-
                     },
+
                     error: function () {
                         alert('This meal is already added !');
                     }

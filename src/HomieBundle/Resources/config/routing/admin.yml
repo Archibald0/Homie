@@ -59,3 +59,11 @@ homie_admin_checkout_confirm:
 homie_admin_checkout_done:
     path: /done
     defaults: {_controller: "HomieBundle:Admin:deliveryCheckout"}
+
+homie_admin_mealType_add:
+    path: /mealType/add
+    defaults: {_controller: "HomieBundle:Admin:addMealType"}
+
+homie_admin_mealType_delete:
+    path: /mealType/delete
+    defaults: {_controller: "HomieBundle:Admin:deleteMealType"}

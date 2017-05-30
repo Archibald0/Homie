@@ -1,6 +1,7 @@
 <?php
 
 namespace HomieBundle\Repository;
+use HomieBundle\Entity\Confirm;
 use HomieBundle\Entity\User;
 
 /**
@@ -40,6 +41,49 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+    public function findCheckoutCooks(User $user) {
+        $userId = $user->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cook = :userid')
+            ->andWhere('c.confirm = :sendid')
+
+            ->setParameter('userid', $userId)
+            ->setParameter('sendid', 3)
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCheckoutClientCook(User $cook, User $client) {
+        $cookId = $cook->getId();
+        $clientId = $client->getId();
+
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.cook = :cookid')
+            ->andWhere('c.client = :clientid')
+            ->andWhere('c.confirm = :sendid')
+
+            ->setParameter('cookid', $cookId)
+            ->setParameter('clientid', $clientId)
+            ->setParameter('sendid', 3)
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCheckoutConfirmeds(User $user) {
+        $userId = $user->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.client = :userid')
+            ->andWhere('c.confirm = :sendid')
+
+            ->setParameter('userid', $userId)
+            ->setParameter('sendid', 2)
+
+            ->getQuery()
+            ->getResult();
+    }
+
     public function price(User $user) {
         $userId = $user->getId();
         return $this->createQueryBuilder('c')
@@ -68,6 +112,60 @@ class CheckoutRepository extends \Doctrine\ORM\EntityRepository
 
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findCheckoutCookConfirmed($clientId) {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.confirm = :confirmid')
+            ->andWhere('c.client = :clientid')
+
+            ->setParameter('confirmid', 4)
+            ->setParameter('clientid', $clientId)
+
+            ->orderBy('c.cook')
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCheckoutsToSend(User $client) {
+        $clientId = $client->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.confirm = :confirmid')
+            ->andWhere('c.client = :clientid')
+
+            ->setParameter('confirmid', 1)
+            ->setParameter('clientid', $clientId)
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findCheckoutbyConfirmed(Confirm $confirm) {
+        $confirmId = $confirm->getId();
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.confirm = :confirmid')
+
+            ->setParameter('confirmid', $confirmId)
+
+            ->orderBy('c.cook')
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findcheckoutbyConfirmedClient(User $client) {
+        $clientId = $client->getId();
+
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.confirm = :confirmid')
+            ->andWhere('c.client = :clientid')
+
+            ->setParameter('confirmid', 2)
+            ->setParameter('clientid', $clientId)
+
+            ->getQuery()
+            ->getResult();
     }
 
 }

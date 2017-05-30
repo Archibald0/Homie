@@ -3,7 +3,7 @@
 {% block main %}
     <main>
         <div class="container container_custom">
-            <div class="row">
+            <div class="row row_custom">
                 <div class="col s10 offset-s1 margin_top">
                     {{ form_start(formAvailable) }}
                     <input type="date" name="date" class="datepicker">
@@ -16,9 +16,9 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col s10 offset-s1" id="showAvailable">
-                    <ul class="center-align">
+            <div class="row row_custom">
+                <div class="col s10 offset-s1">
+                    <ul class="center-align" id="showAvailable">
                         {% for available in availables %}
                             <li class="available">
                                 <p>Date: {{ available.startDate|date("m/d/Y") }}</p>
@@ -70,11 +70,16 @@
 
                         card.css('display', 'none');
 
-                        var nameCard = $(document.createElement('h3'));
-                        nameCard.text(response.name);
+                        /*var dateCard = $(document.createElement('h3'));
+                        dateCard.text("{\{ " + response.start_date + "|date('m/d/Y') }}<br>from: {\{" + response.startDate + "|date('h:i') }} to {\{ " + response.endDate + "|date('h:i') }}");
+*/
+                        var meals = response.meals;
+                        var mealsCard = $(document.createElement('p'));
 
-                        var delayCard = $(document.createElement('p'));
-                        delayCard.text(response.delay);
+                        for(var i = 0; i < meals.length; i++){
+                            mealCard.text(meals[i].name + '<br>');
+                        }
+
 
                         var deleteBtn = $(document.createElement('a'));
                         deleteBtn.attr({
@@ -83,17 +88,17 @@
                         });
                         deleteBtn.text('supprimer');
 
-                        card.append(nameCard, delayCard, deleteBtn);
+                        card.append( mealsCard, deleteBtn);
 
-                        $('#show_meals').prepend(card);
-                        card.slideDown(800);
+                        $('#showAvailable').prepend(card);
+                        card.slideDown(200);
 
                         $('.delete_btn').on('click', function (e) {
                             var id = $(this).attr('id');
                             e.preventDefault();
                             $.ajax({
                                 method: 'get',
-                                url:  "{{ path('homie_cook_delete_meal') }}",
+                                url:  "{{ path('homie_cook_available_delete') }}",
                                 data: {'id': id},
                                 success: function (response) {
                                     alert(response);
@@ -104,7 +109,7 @@
 
                     },
                     error: function () {
-                        alert('This meal is already added !');
+                        alert('Something goes wrong, please try again.');
                     }
                 })
             });

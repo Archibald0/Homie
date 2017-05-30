@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="container">
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1 margin_top">
                 {{ form_start(formPhoto) }}
                     {{ form_row(formPhoto.url) }}
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1" id="formCooker">
                 {{ form_start(formCooker) }}
                     {{ form_row(formCooker.username) }}
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1" id="show_cookers">
                 {% for cooker in cookers %}
                     <div class="card">

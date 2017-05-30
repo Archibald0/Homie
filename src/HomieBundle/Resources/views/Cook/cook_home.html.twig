@@ -3,22 +3,20 @@
 {% block main %}
     <main>
         <div class="container container_custom">
-            <div class="row">
+            <div class="row row_custom">
                 <div class="col s10 offset-s1 margin_top">
                     {% for key, checkoutSort in checkoutSorts %}
-                        <div class="row">
+                        <div class="row row_custom">
                             <div class="col s12">
                                 <ul>
                                     {% for key, checkout in checkoutSort %}
                                         {% if key == 0 %}
                                             <h3>{{ checkout.client.username }}</h3>
-                                            <p>phone: 0{{ checkout.client.phone }}</p>
-                                            <p>address: {{ checkout.address }}</p>
+                                            <p>phone: {{ checkout.client.phone }}</p>
                                             <p>{{ checkout.dateConfirmAdmin|date('d-m-Y h:i') }}</p>
+                                            <p class="center-align"><b>Meals</b></p>
                                         {% endif %}
-                                        <li>
-                                            <p>{{ checkout.quantity }}{{ checkout.meals.name }} {{ checkout.cook.username }} to {{ checkout.cook.address1 }}</p>
-                                        </li>
+                                        <li class="center-align"><b>{{ checkout.meals }} x {{ checkout.quantity }}</b></li>
                                     {% endfor %}
                                 </ul>
                                 <button class="btn confirm_btn btn_custom" id="{{ key }}">Confirm</button>
@@ -32,6 +30,8 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
+
     <script>
         $(document).ready( function () {
             $('.confirm_btn').click( function (e) {
@@ -44,7 +44,7 @@
 
                     success: function (response) {
                         alert(response);
-                        $(this).parent().slideUp(200);
+                        $('#' + id).parent().slideUp(200);
                     }
                 })
             })

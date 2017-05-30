@@ -164,10 +164,23 @@ class ClientController extends Controller
     public function purchaseAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($user);
+        $rCheckout = $em->getRepository('HomieBundle:Checkout');
+        $checkoutNb = $rCheckout->findNbCheckout($user);
+        $checkouts = $rCheckout->findCheckoutConfirmeds($user);
+
+        $prices = 0;
+        foreach ($checkouts as $checkout) {
+            $price = $checkout->getMeals()->getPrice();
+            $quantity = $checkout->getQuantity();
+            $prices += ($price * $quantity);
+        }
+
 
         return $this->render('@Homie/Client/confirm_checkout.html.twig', array(
             'checkoutNb' => $checkoutNb,
+            'checkouts' => $checkouts,
+            'user' => $user,
+            'prices' => $prices
         ));
     }
 
@@ -195,7 +208,7 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $address = $request->query->get('address');
         $client = $this->getUser();
-        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckouts($client);
+        $checkouts = $em->getRepository('HomieBundle:Checkout')->findCheckoutsToSend($client);
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
         $date = new \DateTime();
 
