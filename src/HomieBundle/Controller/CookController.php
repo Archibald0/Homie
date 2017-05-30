@@ -41,12 +41,28 @@ class CookController extends Controller
 
         $date = new \DateTime();
 
+        /*$message = new \Swift_Message('New delivery !');
+        $message
+            ->setFrom('homie.homie.contact@gmail.com')
+            ->setTo('homie.homie.contact@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/cookToAdmin.html.twig',
+                    array()
+                ),
+                'text/html'
+            )
+        ;*/
+
         foreach ($checkouts as $checkout) {
             $checkout->setConfirm($valid);
             $checkout->setDateConfirmCook($date);
         }
 
         $em->flush();
+
+        /*$this->get('mailer')->send($message);*/
 
         $response = new Response("Confirmed!");
 

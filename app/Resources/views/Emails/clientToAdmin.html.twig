@@ -1,0 +1,21 @@
+<h3>You got a new purchase !</h3>
+
+<p>from : <b>{{ client.username }}</b></p>
+<p>
+    address : {{ client.street }}<br>
+    {{ client.zipCode }} {{ client.town }}<br>
+    phone : {{ client.phone }}
+</p>
+
+<ul>
+    {% for checkout in checkouts %}
+        <li>
+            {{ checkout.meals.name }} x {{ checkout.quantity }}<br>
+            Cook : {{ checkout.cook }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="homie.wcs-fontainebleau.fr">Go</a>
+
+

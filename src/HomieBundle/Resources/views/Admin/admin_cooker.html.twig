@@ -3,19 +3,9 @@
 {% block main %}
     <div class="container">
         <div class="row row_custom">
-            <div class="col s10 offset-s1 margin_top">
-                {{ form_start(formPhoto) }}
-                    {{ form_row(formPhoto.url) }}
-                    {{ form_row(formPhoto.alt) }}
-                    <button class="btn waves-effect waves-light right black" type="submit" name="action">
-                        Add Photo
-                        <i class="material-icons left">add</i>
-                    </button>
-                {{ form_end(formPhoto) }}
+            <div class="col s12 margin_top center-align">
+                <a id="newCook" class="btn btn_custom">Create a New cook</a>
             </div>
-        </div>
-
-        <div class="row row_custom">
             <div class="col s10 offset-s1" id="formCooker">
                 {{ form_start(formCooker) }}
                     {{ form_row(formCooker.username) }}
@@ -42,7 +32,6 @@
             <div class="col s10 offset-s1" id="show_cookers">
                 {% for cooker in cookers %}
                     <div class="card">
-                        <img class="img_card" src="{{ asset('uploads/photos/') }}{{ cooker.photo.url }}" alt="{{ cooker.photo.alt }}">
                         <p>{{ cooker.username }}</p>
                         <p>{{ cooker.street }}</p>
                         <p>{{ cooker.zipCode }}</p>
@@ -60,51 +49,4 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $(document).ready( function (e) {
-            $('form[name="homiebundle_photo"]').submit( function (e) {
-                e.preventDefault();
-                var $data = new FormData($(this)[0]);
-
-                $.ajax({
-                    method: 'post',
-                    url: "{{ path('homie_cooker_photo_add') }}",
-                    processData: false,
-                    contentType: false,
-                    data: $data,
-
-                    success: function (response) {
-                        var $inputToken = $('form[name="app_user_registration"] input[id="app_user_registration__token"]');
-                        var idPhoto = response.id;
-
-                        var inputElt = $(document.createElement('input'));
-                        inputElt.attr({
-                            'value': idPhoto,
-                            'type': 'hidden',
-                            'name': 'app_user_registration_photo_id',
-                            'id' : 'photo_input',
-                        });
-
-                        inputElt.insertBefore($inputToken);
-
-                        $('#formCooker').slideDown(800);
-                    }
-                })
-            });
-
-            $('.delete_btn').on('click', function (e) {
-                var id = $(this).attr('id');
-                e.preventDefault();
-                $.ajax({
-                    method: 'get',
-                    url:  "{{ path('homie_cooker_delete') }}",
-                    data: {'id': id},
-                    success: function (response) {
-                        alert(response);
-                        $('#' + id).parent().slideUp(800).remove();
-                    }
-                });
-            });
-        })
-    </script>
 {% endblock %}

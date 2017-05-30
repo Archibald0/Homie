@@ -212,6 +212,23 @@ class ClientController extends Controller
         $valid = $em->getRepository('HomieBundle:Confirm')->findOneById(2);
         $date = new \DateTime();
 
+        /*$message = new \Swift_Message('New purchase !');
+        $message
+            ->setFrom('homie.homie.contact@gmail.com')
+            ->setTo('homie.homie.contact@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/clientToAdmin.html.twig',
+                    array(
+                        'client' => $client,
+                        'checkouts' => $checkouts
+                    )
+                ),
+                'text/html'
+            )
+        ;*/
+
         if($address == 'address1') {
             $street = $client->getStreet();
             $zipCode = $client->getZipCode();
@@ -252,6 +269,8 @@ class ClientController extends Controller
         }
 
         $em->flush();
+
+        /*$this->get('mailer')->send($message);*/
 
         return $response;
     }

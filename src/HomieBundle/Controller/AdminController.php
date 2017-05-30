@@ -26,18 +26,13 @@ class AdminController extends Controller
             array('username' => 'desc')
             );
         $cooker = new User();
-        $photo = new Photo();
         $cookerType = $em->getRepository('HomieBundle:UserGroup')->findOneByName('cook');
 
-        $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
         $formCooker = $this->createForm("HomieBundle\Form\CookerType", $cooker);
 
         $formCooker->handleRequest($request);
 
         if($formCooker->isSubmitted() && $formCooker->isValid()) {
-            $photoId = $request->request->get('app_user_registration_photo_id');
-            $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
-            $cooker->setPhoto($photo);
             $cooker->setUserGroup($cookerType);
             $cooker->addRole('ROLE_COOKER');
             $cooker->setEnabled(1);
@@ -50,53 +45,11 @@ class AdminController extends Controller
         }
 
         return $this->render('HomieBundle:Admin:admin_cooker.html.twig', array(
-            'formPhoto' => $formPhoto->createView(),
             'formCooker' => $formCooker->createView(),
             'cookers' => $cookers,
         ));
     }
 
-    public function addCookerAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $cooker = new User();
-
-        if($request->isXmlHttpRequest()) {
-            $phone = $request->request->get('homiebundle_user')['phone'];
-            $email = $request->request->get('homiebundle_user')['email'];
-            $description = $request->request->get('homiebundle_user')['description'];
-            $photoId = $request->request->get('photo_id');
-
-            $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
-
-            $cooker->setAddress1($address1);
-            $cooker->setPhone($phone);
-            $cooker->setEmail($email);
-            $cooker->setDescription($description);
-            $cooker->setUserGroup($cookerType);
-            $cooker->setPhoto($photo);
-
-
-            $em->persist($cooker);
-            $em->flush();
-
-            $cookers = $em->getRepository('HomieBundle:User')->findByUserGroup(2);
-
-            $cooker = $cookers[count($cookers)-1];
-
-            $encoders = array(new JsonEncoder()) ;
-            $normalizer = array(new ObjectNormalizer()) ;
-            $serializer = new Serializer($normalizer, $encoders);
-
-            $jsonCooker = $serializer->serialize($cooker, 'json');
-
-            $response = new response($jsonCooker);
-
-            $response->headers->set('Content-Type', 'application/json');
-
-
-            return $response;
-        }
-    }
 
     public function deleteCookerAction(Request $request){
         $em = $this->getDoctrine()->getManager();
@@ -124,8 +77,6 @@ class AdminController extends Controller
         $id = $request->query->get('id');
         $cooker = $em->getRepository('HomieBundle:User')->findOneById($id);
         $formCooker = $this->createForm("HomieBundle\Form\CookerType", $cooker);
-        $photo = $cooker->getPhoto();
-        $formPhoto = $this->createForm("HomieBundle\Form\PhotoType", $photo);
 
         $formCooker->handleRequest($request);
 
@@ -136,7 +87,6 @@ class AdminController extends Controller
 
         return $this->render('HomieBundle:Admin:admin_cooker_edit.html.twig', array(
             'formCooker' => $formCooker->createView(),
-            'formPhoto' => $formPhoto->createView(),
             'cooker' => $cooker,
         ));
     }
@@ -377,11 +327,36 @@ class AdminController extends Controller
         $date = new \DateTime();
 
         foreach ($checkouts as $checkout) {
+            $cook = $checkout->getCook();
+            $cookName = $cook->getUsername();
+            $cookMail = $cook->getEmail();
+            $mails[$cookMail] = $cookName;
+        }
+
+        /*$message = new \Swift_Message('New purchase !');
+        $message
+            ->setFrom('homie.homie.contact@gmail.com')
+            ->setTo($mails)
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'Emails/adminToCook.html.twig',
+                    array(
+                    )
+                ),
+                'text/html'
+            )
+        ;*/
+
+        foreach ($checkouts as $checkout) {
             $checkout->setConfirm($valid);
             $checkout->setDateConfirmAdmin($date);
         }
 
         $em->flush();
+
+        /*$this->get('mailer')->send($message);*/
+
         $response = new Response("commande confirmée");
 
         return $response;

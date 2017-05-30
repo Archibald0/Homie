@@ -6,9 +6,40 @@
             <div class="row row_custom">
                 <div class="col s10 offset-s1 margin_top">
                     {{ form_start(formAvailable) }}
-                    <input type="date" name="date" class="datepicker">
-                    {{ form_widget(formAvailable.start_date.time) }}
-                    {{ form_widget(formAvailable.end_date.time) }}
+                    <div class="row row_custom">
+                        <p class="col s2">Day:</p>
+                        <input type="date" name="date" class="datepicker col s10">
+                    </div>
+                    <div class="row row_custom">
+                        <p class="col s2">From:</p>
+                        <div class="col s10">
+                            <div class="row_custom row">
+                                <div class="col s5">
+                                    {{ form_widget(formAvailable.start_date.time.hour) }}
+                                </div>
+                                <p class="col s2 center-align">:
+                                <div class="col s5">
+                                    {{ form_widget(formAvailable.start_date.time.minute) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row row_custom">
+                        <p class="col s2">To:</p>
+                        <div class="col s10">
+                            <div class="row_custom row">
+                                <div class="col s5">
+                                    {{ form_widget(formAvailable.end_date.time.hour) }}
+                                </div>
+                                <p class="col s2 center-align">:
+                                <div class="col s5">
+                                    {{ form_widget(formAvailable.end_date.time.minute) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                     {{ form_widget(formAvailable.meals) }}
                     <input type="hidden" name="userId" value="{{ cook.id }}">
                     {{ form_widget(formAvailable.submit) }}

@@ -17,6 +17,11 @@ $(document).ready(function() {
         $(this).next().slideToggle(100);
     });
 
+    $('#newCook').click( function (e) {
+        e.preventDefault();
+        $('#formCooker').slideToggle(100);
+    });
+
     $(window).resize(function () {
         cardResize(1);
     });

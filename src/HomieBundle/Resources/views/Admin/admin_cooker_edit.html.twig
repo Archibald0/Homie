@@ -3,19 +3,6 @@
     <div class="container">
         <div class="row row_custom">
             <div class="col s10 offset-s1 margin_top">
-                {{ form_start(formPhoto) }}
-                {{ form_row(formPhoto.url) }}
-                {{ form_row(formPhoto.alt) }}
-                <button class="btn waves-effect waves-light right black" type="submit" name="action">
-                    Add Photo
-                    <i class="material-icons left">add</i>
-                </button>
-                {{ form_end(formPhoto) }}
-            </div>
-        </div>
-
-        <div class="row row_custom">
-            <div class="col s10 offset-s1">
                 {{ form_start(formCooker) }}
                 {{ form_row(formCooker.username) }}
                 {{ form_row(formCooker.plainPassword.first) }}
@@ -40,36 +27,4 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        $(document).ready( function () {
-            $('form[name="homiebundle_photo"]').submit( function (e) {
-                e.preventDefault();
-                var $data = new FormData($(this)[0]);
-
-                $.ajax({
-                    method: 'post',
-                    url: "{{ path('homie_cooker_photo_add') }}",
-                    processData: false,
-                    contentType: false,
-                    data: $data,
-
-                    success: function (response) {
-                        $('#photo_input').remove();
-                        var $inputToken = $('form[name="homiebundle_meal"] input[id="homiebundle_meal__token"]');
-                        var idPhoto = response.id;
-
-                        var inputElt = $(document.createElement('input'));
-                        inputElt.attr({
-                            'value': idPhoto,
-                            'type': 'hidden',
-                            'name': 'photo_id',
-                            'id' : 'photo_input',
-                        });
-
-                        inputElt.insertBefore($inputToken);
-                    }
-                })
-            });
-        });
-    </script>
 {% endblock %}
