@@ -26,6 +26,12 @@ HomieBundle\Entity\Meal:
             mappedBy: meals
             nullable: true
 
+        availables:
+            targetEntity: HomieBundle\Entity\Available
+            inversedBy: meals
+            nullable: true
+
+
     manyToOne:
         meal_type:
             targetEntity: HomieBundle\Entity\Meal_type

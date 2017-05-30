@@ -1,0 +1,56 @@
+{% extends '@Homie/Client/client_layout.html.twig' %}
+
+{% block main %}
+<main>
+    <div class="container">
+        <div class="row row_custom">
+            <div class="col s10 offset-s1 margin_top">
+                <div class="row row_custom">
+                    {% for checkout in checkouts %}
+                    <div class="col s12 checkout">
+                        <p>
+                            <a class="delete_btn cross" id="{{ checkout.id }}">
+                                <i class="material-icons">close</i>
+                            </a>
+                            {{ checkout.meals.name }} x {{ checkout.quantity }} - {{ checkout.meals.price * checkout.quantity }}€
+                        </p>
+
+                        <p>Cook: {{ checkout.cook.username }}</p>
+                    </div>
+                    {% endfor %}
+
+                    <p class="totalPrice">Total: {{ prices }}€</p>
+
+                </div>
+            </div>
+            <div class="col S12">
+                <a href="{{ path('homie_client_checkout_address') }}" class="waves-effect waves-light btn btn_custom center-align">Next step</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.delete_btn').on('click', function (e) {
+                var id = $(this).attr('id');
+                e.preventDefault();
+                $.ajax({
+                    method: 'get',
+                    url:  "{{ path('homie_client_checkout_delete') }}",
+                    data: {'id': id},
+                    success: function (response) {
+                        console.log(response);
+                        $('.checkNbTxt').text(response.checkoutNb);
+                        $('.totalPrice').text('Total: ' + response.totalPrice + "€");
+
+                        alert(response.msg);
+                        $('#' + id).parent().parent().slideUp(800).remove();
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}

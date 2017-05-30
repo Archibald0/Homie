@@ -3,52 +3,86 @@
 {% block main %}
 
 <div class="container">
-    <div class="row">
-        <div class="col s10 offset-s1">
-            {{ form_start(formPhoto) }}
-            {{ form_row(formPhoto.url) }}
-            {{ form_row(formPhoto.alt) }}
-            <button class="btn waves-effect waves-light right black" type="submit" name="action">
-                Add Photo
-                <i class="material-icons left">add</i>
-            </button>
-            {{ form_end(formPhoto) }}
+    <div class="row row_custom">
+        <div class="col s12 margin_top">
+            <ul class="tabs">
+                <li class="tab col s6"><a class="active" href="#meals">Meals</a></li>
+                <li class="tab col s6"><a href="#type">Meal's Types</a></li>
+            </ul>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col s10 offset-s1" id="formMeal">
-            {{ form_start(formMeal) }}
-            {{ form_row(formMeal.name) }}
-            {{ form_row(formMeal.description) }}
-            {{ form_row(formMeal.delay) }}
-            {{ form_row(
-            formMeal.price) }}
-            {{ form_row(formMeal.meal_type) }}
-            <button class="btn waves-effect waves-light right black" type="submit" name="action">
-                Add Cooker
-                <i class="material-icons left">add</i>
-            </button>
-            {{ form_end(formMeal) }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s10 offset-s1" id="show_meals">
-            {% for meal in meals %}
-                <div class="card">
-                    <img src="{{ asset('uploads/photos/') }}{{ meal.photo.url }}" alt="{{ meal.photo.alt }}">
-                    <p>{{ meal.name }}</p>
-                    <p>{{ meal.description }}</p>
-                    <p>{{ meal.delay }}</p>
-                    <p>{{ meal.mealType }}</p>
-                    <a class="waves-effect waves-light btn black delete_btn" id="{{ meal.id }}">Delete</a>
-                    <a href="{{ path('homie_admin_meal_edit_form', { 'id' : meal.id }) }}" class="waves-effect waves-light btn black edit_btn">Edit</a>
+        <div id="meals" class="col s12">
+            <div class="row row_custom">
+                <div class="col s10 offset-s1 margin_top">
+                    {{ form_start(formPhoto) }}
+                    {{ form_row(formPhoto.url) }}
+                    {{ form_row(formPhoto.alt) }}
+                    <button class="btn waves-effect waves-light right black" type="submit" name="action">
+                        Add Photo
+                        <i class="material-icons left">add</i>
+                    </button>
+                    {{ form_end(formPhoto) }}
                 </div>
-            {% endfor %}
+            </div>
+
+            <div class="row row_custom">
+                <div class="col s10 offset-s1" id="formMeal">
+                    {{ form_start(formMeal) }}
+                    {{ form_row(formMeal.name) }}
+                    {{ form_row(formMeal.description) }}
+                    {{ form_row(formMeal.delay) }}
+                    {{ form_row(
+                    formMeal.price) }}
+                    {{ form_row(formMeal.meal_type) }}
+                    <button class="btn waves-effect waves-light right black" type="submit" name="action">
+                        Add Cooker
+                        <i class="material-icons left">add</i>
+                    </button>
+                    {{ form_end(formMeal) }}
+                </div>
+            </div>
+
+            <div class="row row_custom">
+                <div class="col s10 offset-s1" id="show_meals">
+                    {% for meal in meals %}
+                        <div class="card">
+                            <img class="img_card" src="{{ asset('uploads/photos/') }}{{ meal.photo.url }}" alt="{{ meal.photo.alt }}">
+                            <p>{{ meal.name }}</p>
+                            <p>{{ meal.description }}</p>
+                            <p>{{ meal.delay }}</p>
+                            <p>{{ meal.mealType }}</p>
+                            <a class="waves-effect waves-light btn black delete_btn" id="{{ meal.id }}">Delete</a>
+                            <a href="{{ path('homie_admin_meal_edit_form', { 'id' : meal.id }) }}" class="waves-effect waves-light btn black edit_btn">Edit</a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
         </div>
 
+        <div id="type" class="col s12">
+            <div class="row row_custom">
+                {{ form_start(formMealType) }}
+                {{ form_end(formMealType) }}
+            </div>
+
+            <div class="row row_custom">
+                <div class="col s12">
+                    <ul id="showMealType">
+                        {% for mealType in mealTypes %}
+                            <li>
+                                <p>{{ mealType.name }}</p>
+                                <a class="waves-effect waves-light btn black delete_btn_mealtype align-right" id="{{ mealType.id }}">delete</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 </div>
 {% endblock %}
     {% block javascripts %}
@@ -68,7 +102,6 @@
                         success: function (response) {
                             var $inputToken = $('form[name="homiebundle_meal"] input[id="homiebundle_meal__token"]');
                             var idPhoto = response.id;
-console.log($inputToken);
                             var inputElt = $(document.createElement('input'));
                             inputElt.attr({
                                 'value': idPhoto,
@@ -96,7 +129,6 @@ console.log($inputToken);
                         data: $data,
 
                         success: function (response) {
-                            console.log(response);
                             var card = $(document.createElement('div'));
                             card.attr('class', 'card');
                             card.css({'background':  'url({{ asset("uploads/photos/") }}' +response.photo.url+') center',
@@ -166,6 +198,66 @@ console.log($inputToken);
                     $.ajax({
                         method: 'get',
                         url:  "{{ path('homie_admin_meal_delete') }}",
+                        data: {'id': id},
+                        success: function (response) {
+                            alert(response);
+                            $('#' + id).parent().slideUp(800).remove();
+                        }
+                    });
+                });
+
+                $('form[name="homiebundle_meal_type"]').submit( function (e) {
+                    e.preventDefault();
+                    var data = new FormData($(this)[0]);
+
+                    $.ajax({
+                        method: 'post',
+                        url:'{{ path('homie_admin_mealType_add') }}',
+                        processData: false,
+                        contentType: false,
+                        data: data,
+                        success: function (response) {
+                            var mealType = $(document.createElement('li'));
+                            mealType.css('display' , 'none');
+
+                            var mealTName = $(document.createElement('p'));
+                            mealTName.text(response.name);
+
+                            var mealTbtn = $(document.createElement('a'));
+                            mealTbtn.attr({
+                                'class' : 'waves-effect waves-light btn black delete_btn_mealtype align-right',
+                                'id' : response.id,
+                            });
+                            mealTbtn.text('Delete');
+
+                            mealType.append(mealTName, mealTbtn);
+
+                            $('#showMealType').prepend(mealType);
+                            mealType.slideDown(200);
+
+                            $('.delete_btn_mealtype').on('click', function (e) {
+                                var id = $(this).attr('id');
+                                e.preventDefault();
+                                $.ajax({
+                                    method: 'get',
+                                    url:  "{{ path('homie_admin_mealType_delete') }}",
+                                    data: {'id': id},
+                                    success: function (response) {
+                                        alert(response);
+                                        $('#' + id).parent().slideUp(800).remove();
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+
+                $('.delete_btn_mealtype').on('click', function (e) {
+                    var id = $(this).attr('id');
+                    e.preventDefault();
+                    $.ajax({
+                        method: 'get',
+                        url:  "{{ path('homie_admin_mealType_delete') }}",
                         data: {'id': id},
                         success: function (response) {
                             alert(response);

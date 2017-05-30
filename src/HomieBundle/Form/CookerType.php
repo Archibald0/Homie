@@ -16,7 +16,11 @@ class CookerType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('address1')
+            ->add('street')
+            ->add('zip_code')
+            ->add('town')
+            ->add('digicode')
+            ->add('complement')
             ->add('phone')
             ->add('email')
             ->add('description')

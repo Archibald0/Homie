@@ -1,0 +1,25 @@
+{% extends '@Homie/Client/client_layout.html.twig' %}
+
+{% block main %}
+<main>
+    <div class="container">
+        <div class="row row_custom">
+            <div class="col s10 offset-s1 margin_top">
+                <p>Votre commande a bien été prise en compte, vous recevrez un mail de confirmation dans les prochaines minutes.</p>
+                <p><b>Récapitulatif de votre commande :</b></p>
+                <p><b>Delivery address:</b> {{ user.street }} {{ user.zipCode }} {{ user.town }}</p>
+                <p>tel: {{ user.phone }}</p>
+
+                <ul>
+                    <p class="center-align"><b>Meals</b></p>
+                    {% for checkout in checkouts %}
+                        <li class="center-align">{{ checkout.meals }} x {{ checkout.quantity }} - {{ checkout.meals.price * checkout.quantity }}€</li>
+                    {% endfor %}
+                </ul>
+                <p class="totalPrice"><b>Total price: {{ prices }}€</b></p>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

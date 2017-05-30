@@ -1,0 +1,99 @@
+{% extends '@Homie/Client/client_layout.html.twig' %}
+
+{% block main %}
+    <main>
+        <div class="container container_custom">
+            <div class="row row_custom">
+                <div class="col s10 offset-s1">
+                    <p class="margin_top center-align">What is your delivery address ?</p>
+                    <div class="col s12">
+                        <ul class="tabs tabs_address">
+                            <li class="tab col s4"><a class="active" href="#Address1">Address 1</a></li>
+                            {% if user.street2 != null %}<li class="tab col s4"><a href="#Address2">Address 2</a></li>{% endif %}
+                            <li class="tab col s4"><a href="#FormAddress">New Address</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="Address1" class="col s12">
+                        <ul>
+                            <li>{{ user.street }}</li>
+                            <li>{{ user.zipCode }}</li>
+                            <li>{{ user.town }}</li>
+                            <li>{{ user.digicode }}</li>
+                            <li>{{ user.complement }}</li>
+                        </ul>
+                        <button class="btn btn_custom" id="address1">Choose this address</button>
+                    </div>
+
+                    {% if user.street2 != null %}
+                    <div id="Address2" class="col s12">
+                        <ul>
+                            <li>{{ user.street2 }}</li>
+                            <li>{{ user.zipCode2 }}</li>
+                            <li>{{ user.town2 }}</li>
+                            <li>{{ user.digicode2 }}</li>
+                            <li>{{ user.complement2 }}</li>
+                        </ul>
+                        <button id="address2">Choose this address</button>
+                    </div>
+                    {% endif %}
+
+                    <div id="FormAddress" class="col s12">
+                        {{ form_start(formCheckout) }}
+                        {{ form_end(formCheckout) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+           $('#address1').click( function (e) {
+               e.preventDefault();
+               var data = {address: 'address1'}
+               $.ajax({
+                   method:'get',
+                   url: '{{ path('homie_client_checkout_address_send') }}',
+                   data: data,
+
+                   success: function () {
+                       top.location.href="{{ path('homie_client_checkout_purchase') }}";//redirection
+                   }
+
+               });
+           });
+
+            $('#address2').click( function (e) {
+                e.preventDefault();
+                var data = {address: 'address2'}
+                $.ajax({
+                    method:'get',
+                    url: '{{ path('homie_client_checkout_address_send') }}',
+                    data: data,
+                    success: function () {
+                        top.location.href="{{ path('homie_client_checkout_purchase') }}";//redirection
+                    }
+                });
+            });
+
+            $('form[name="homiebundle_checkout"]').submit( function (e) {
+                e.preventDefault();
+                var data = new FormData($(this)[0]);
+
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('homie_client_checkout_address_send') }}',
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function () {
+                        top.location.href="{{ path('homie_client_checkout_purchase') }}";//redirection
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

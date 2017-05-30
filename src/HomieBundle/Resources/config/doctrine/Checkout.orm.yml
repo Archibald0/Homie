@@ -1,0 +1,70 @@
+HomieBundle\Entity\Checkout:
+    type: entity
+    table: null
+    repositoryClass: HomieBundle\Repository\CheckoutRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date_send:
+            type: datetime
+            nullable: true
+
+        date_confirm_admin:
+            type: datetime
+            nullable: true
+
+        date_confirm_cook:
+            type: datetime
+            nullable: true
+
+        date_delivery:
+            type: datetime
+            nullable: true
+
+        street:
+            type: string
+            length: 255
+            nullable: true
+
+        zip_code:
+            type: integer
+            nullable: true
+
+        town:
+            type: string
+            length: 255
+            nullable: true
+
+        digicode:
+            type: string
+            length: 20
+            nullable: true
+
+        complement:
+            type: string
+            length: 255
+            nullable: true
+
+        quantity:
+            type: integer
+
+    manyToOne:
+        meals:
+            targetEntity: HomieBundle\Entity\Meal
+
+        cook:
+            targetEntity: HomieBundle\Entity\User
+
+        client:
+            targetEntity: HomieBundle\Entity\User
+            inversedBy: checkouts
+
+
+        confirm:
+            targetEntity: HomieBundle\Entity\Confirm
+
+    lifecycleCallbacks: {  }

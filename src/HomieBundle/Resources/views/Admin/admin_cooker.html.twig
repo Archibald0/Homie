@@ -2,8 +2,8 @@
 
 {% block main %}
     <div class="container">
-        <div class="row">
-            <div class="col s10 offset-s1">
+        <div class="row row_custom">
+            <div class="col s10 offset-s1 margin_top">
                 {{ form_start(formPhoto) }}
                     {{ form_row(formPhoto.url) }}
                     {{ form_row(formPhoto.alt) }}
@@ -15,31 +15,38 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1" id="formCooker">
                 {{ form_start(formCooker) }}
-                {{ form_row(formCooker.username) }}
-                {{ form_row(formCooker.plainPassword) }}
-                {{ form_row(formCooker.plainPassword) }}
-                {{ form_row(formCooker.address1) }}
-                {{ form_row(formCooker.phone) }}
-                {{ form_row(formCooker.email) }}
-                {{ form_row(formCooker.description) }}
-                <button class="btn waves-effect waves-light right black" type="submit" name="action">
-                    Add Cooker
-                    <i class="material-icons left">add</i>
-                </button>
+                    {{ form_row(formCooker.username) }}
+                    {{ form_row(formCooker.plainPassword.first) }}
+                    {{ form_row(formCooker.plainPassword.second) }}
+                    {{ form_row(formCooker.street) }}
+                    {{ form_row(formCooker.zip_code) }}
+                    {{ form_row(formCooker.town) }}
+                    {{ form_row(formCooker.town) }}
+                    {{ form_row(formCooker.digicode) }}
+                    {{ form_row(formCooker.complement) }}
+                    {{ form_row(formCooker.phone) }}
+                    {{ form_row(formCooker.email) }}
+                    {{ form_row(formCooker.description) }}
+                    <button class="btn waves-effect waves-light right black" type="submit" name="action">
+                        Add Cooker
+                        <i class="material-icons left">add</i>
+                    </button>
                 {{ form_end(formCooker) }}
             </div>
         </div>
 
-        <div class="row">
+        <div class="row row_custom">
             <div class="col s10 offset-s1" id="show_cookers">
                 {% for cooker in cookers %}
                     <div class="card">
-                        <img src="{{ asset('uploads/photos/') }}{{ cooker.photo.url }}" alt="{{ cooker.photo.alt }}">
+                        <img class="img_card" src="{{ asset('uploads/photos/') }}{{ cooker.photo.url }}" alt="{{ cooker.photo.alt }}">
                         <p>{{ cooker.username }}</p>
-                        <p>{{ cooker.address1 }}</p>
+                        <p>{{ cooker.street }}</p>
+                        <p>{{ cooker.zipCode }}</p>
+                        <p>{{ cooker.town }}</p>
                         <p>{{ cooker.phone }}</p>
                         <p>{{ cooker.email }}</p>
                         <a class="waves-effect waves-light btn black delete_btn" id="{{ cooker.id }}">Delete</a>
@@ -83,84 +90,6 @@
                         $('#formCooker').slideDown(800);
                     }
                 })
-            });
-
-            $('form[name="homiebundle_user"]').submit( function (e) {
-                e.preventDefault();
-                var $data = new FormData($(this)[0]);
-
-                $.ajax({
-                    method: 'post',
-                    url: '{{ path('homie_cooker_add') }}',
-                    processData: false,
-                    contentType: false,
-                    data: $data,
-
-                    success: function (response) {
-                        console.log(response);
-                        var card = $(document.createElement('div'));
-                        card.attr('class', 'card');
-                        card.css({'background':  'url({{ asset("uploads/photos/") }}' +response.photo.url+') center',
-                            'background-size': 'cover',
-                            'display': 'none'});
-
-                        var nameCard = $(document.createElement('p'));
-                        nameCard.text(response.name);
-
-                        var fornameCard = $(document.createElement('p'));
-                        fornameCard.text(response.forname);
-
-                        var address1Card = $(document.createElement('p'));
-                        address1Card.text(response.address1);
-
-                        var phoneCard = $(document.createElement('p'));
-                        phoneCard.text(response.phone);
-
-                        var emailCard = $(document.createElement('p'));
-                        emailCard.text(response.email);
-
-                        var deleteBtn = $(document.createElement('a'));
-                        deleteBtn.attr({
-                            'class': 'waves-effect waves-light btn black delete_btn',
-                            'id': response.id,
-                        });
-                        deleteBtn.text('supprimer');
-
-                        var editBtn = $(document.createElement('a'));
-                        editBtn.attr({
-                            'class': 'waves-effect waves-light btn black edit_btn',
-                            'id': response.id,
-                        });
-                        editBtn.text('edit');
-
-                        card.append(nameCard, fornameCard,address1Card, phoneCard, emailCard, deleteBtn, editBtn);
-
-
-                        $('#show_cookers').prepend(card);
-                        card.slideDown(800);
-
-                        $('.delete_btn').on('click', function (e) {
-                            var id = $(this).attr('id');
-                            e.preventDefault();
-                            $.ajax({
-                                method: 'get',
-                                url:  "{{ path('homie_cooker_delete') }}",
-                                data: {'id': id},
-                                success: function (response) {
-                                    alert(response);
-                                    $('#' + id).parent().slideUp(800).remove();
-                                }
-                            });
-                        });
-
-                    },
-                    complete: function () {
-                        $('form[name="homiebundle_photo"]').trigger('reset');
-                        $('form[name="homiebundle_user"]').trigger('reset');
-                        $('#formCooker').slideUp(800);
-                    }
-
-                });
             });
 
             $('.delete_btn').on('click', function (e) {
