@@ -20,6 +20,12 @@ HomieBundle\Entity\Available:
             targetEntity: HomieBundle\Entity\User
             inversedBy: availables
             nullable: true
-            cascade: ["all"]
+
+    manyToMany:
+        meals:
+            targetEntity: HomieBundle\Entity\Meal
+            mappedBy: availables
+            nullable: true
+
 
     lifecycleCallbacks: {  }

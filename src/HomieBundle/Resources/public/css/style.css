@@ -1,17 +1,199 @@
-#formCooker, #formMeal {
-    display: none;
+
+/*---------- Main ---------*/
+
+body{
+    height: 100vh;
+}
+
+main {
+    height: 100%;
 }
 
 nav{
     background-color: #ff2f20;
     color: #000000;
+    position: fixed;
+    z-index: 2;
+}
+
+input[type=range]+.thumb, input {
+    background-color: #ff2f20;
+    border-bottom-color: #ff2f20;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: #ff2f20;
+}
+input[type=range]::-moz-range-thumb {
+    background-color: #ff2f20;
+}
+input[type=range]::-ms-thumb {
+    background-color: #ff2f20;
+}
+
+#sidenav-overlay {
+    z-index: 0!important;
+}
+nav h1 {
+    margin-top: 10px;
+    margin-bottom: auto;
+    padding: 0;
+}
+
+.margin_top {
+    margin-top: 65px;
+}
+
+.container_custom {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.row_custom {
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.btn_custom, .btn_custom:hover {
+    background-color: #ff2f20;
+    color: white;
+}
+
+#formCooker, #formMeal {
+    display: none;
+}
+
+/*--------- Index --------*/
+#index {
+    height: 100%;
+}
+
+.signup_btn {
+    color: white;
+    padding: 5px;
+    background-color: #ff2f20;
+}
+
+#index .container_custom {
+    background-color: rgba(245,245,245,0.3);
+}
+#rowIndex {
+    margin-top: 70%;
 }
 
 .home_card {
     text-align: center!important;
+    height: 100px;
+    margin: 5px 0;
+    padding-top: 42px!important;
+    color: #000;
 }
 
-.btn_custom {
+.home_card:nth-child(1) {
+    background-color: #ff2f20;
+}
+
+.home_card:nth-child(2) {
     background-color: #ffd745;
-    color: #000000;
+}
+
+/*--------- Home Client ---------*/
+
+.card_custom .card-content {
+    padding: 0;
+}
+
+.checkNb {
+    background-color: white;
+    color: #ff2f20!important;
+}
+
+    .checkNb a {
+        color: #ff2f20;
+    }
+
+/*-------- checkout client ---------*/
+
+.checkout {
+    display: block;
+    position: relative;
+}
+
+.cross {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: black;
+}
+
+    .cross a{
+        text-align: right;
+    }
+
+    .tabs_address a {
+        font-size: 0.7em!important;
+        padding-right: 5px!important;
+        padding-left: 5px!important;
+    }
+
+.totalPrice {
+    margin-top: 20px;
+}
+
+/*----- Admin Cook --------*/
+
+.img_card {
+    width: 100%;
+}
+
+/*-------- Admin Home --------*/
+.checkout_admin {
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ff2f20;
+}
+
+.checkoutOrder {
+    margin-bottom: 0!important;
+}
+
+.showAddress {
+    color: #ff2f20;
+}
+
+.cookAddress {
+    margin-top: 0!important;
+    display:none;
+}
+
+/*-------- Cook Available --------*/
+.available {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ff2f20;
+}
+
+.show_meal {
+    display: none;
+    padding-bottom: 10px;
+}
+
+.show_meal:nth-child(1) {
+    padding-top: 5px;
+}
+
+.show_meals {
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+/*----------------Cook Meals -----------------*/
+
+.show_meal_cook {
+    text-align: center;
+    border-bottom: 2px solid #ff2f20;
+    padding-bottom: 5px;
 }

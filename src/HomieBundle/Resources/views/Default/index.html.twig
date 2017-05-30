@@ -9,23 +9,25 @@
 {% endblock %}
 
 {% block main %}
-<main>
-    <div class="container">
-        <div class="row">
+<main id="index" style="background: url('{{ asset('bundles/homie/pics/Homie.jpg') }}') center; background-size: cover">
+    <div class="container container_custom">
+        <div class="row row_custom">
             <div class="col s10 offset-s1">
-                <div class="row">
+
+                <div class="row row_custom" id="rowIndex">
                     <div class="col s12 center-align">
-                        <p >Who are you? A Cook or Client?</p>
+                        <p>Who are you? A Cook or Client?</p>
+                        <a class="signup_btn" href="{{ path('homie_client_signup') }}">Sign up !</a>
                     </div>
                 </div>
 
-                <div class="row">
-                    <a href="#" class="col s5 valign-wrapper home_card">
-                        <h2 class="center-align">COOK</h2>
+                <div class="row row_custom">
+                    <a href="{{ path('homie_client_home') }}" class="col s10 offset-s1 center-align home_card">
+                        CLIENT
                     </a>
 
-                    <a href="#" class="col s5 valign-wrapper offset-s2 home_card">
-                        <h2 class="center-align">CLIENT</h2>
+                    <a href="{{ path('homie_cook_home') }}" class="col s10 offset-s1 center-align home_card">
+                        COOK
                     </a>
                 </div>
             </div>

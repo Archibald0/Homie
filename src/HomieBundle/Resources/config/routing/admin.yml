@@ -1,3 +1,7 @@
+homie_admin_home:
+    path: /
+    defaults: {_controller: "HomieBundle:Admin:showCheckout"}
+
 homie_admin_cooker:
     path: /cooker
     defaults: {_controller: "HomieBundle:Admin:indexCooker"}
@@ -6,7 +10,7 @@ homie_cooker_photo_add:
     path: /photo
     defaults: {_controller: "HomieBundle:Default:addPhoto"}
 
-homie_cooker_add:
+homie_admin_cooker_add:
     path: /cooker/add
     defaults: {_controller: "HomieBundle:Admin:addCooker"}
 
@@ -19,7 +23,7 @@ homie_cooker_edit_form:
     defaults: {_controller: "HomieBundle:Admin:editCookerForm"}
     requirements:
         id : '\d+'
-    methods: ['get']
+    methods: ['get', 'post']
 
 homie_cooker_edit:
     path: /cooker/edit/now
@@ -47,3 +51,19 @@ homie_admin_meal_edit_form:
 homie_admin_meal_edit:
     path: /meal/edit/now
     defaults: {_controller: "HomieBundle:Admin:editMeal"}
+
+homie_admin_checkout_confirm:
+    path: /confirm
+    defaults: {_controller: "HomieBundle:Admin:confirmCheckout"}
+
+homie_admin_checkout_done:
+    path: /done
+    defaults: {_controller: "HomieBundle:Admin:deliveryCheckout"}
+
+homie_admin_mealType_add:
+    path: /mealType/add
+    defaults: {_controller: "HomieBundle:Admin:addMealType"}
+
+homie_admin_mealType_delete:
+    path: /mealType/delete
+    defaults: {_controller: "HomieBundle:Admin:deleteMealType"}

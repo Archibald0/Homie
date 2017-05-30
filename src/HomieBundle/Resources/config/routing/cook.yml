@@ -1,3 +1,11 @@
+homie_cook_home:
+    path: /
+    defaults: {_controller: "HomieBundle:Cook:home"}
+
+homie_cook_confirm:
+    path: /confirm
+    defaults: {_controller: "HomieBundle:Cook:confirmCheckout"}
+
 homie_cook_meals:
     path: /meal
     defaults: {_controller: "HomieBundle:Cook:showMeal"}

@@ -7,6 +7,7 @@ namespace HomieBundle\Entity;
  */
 class Available
 {
+
     /**
      * @var integer
      */
@@ -27,6 +28,18 @@ class Available
      */
     private $user;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $meals;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->meals = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -108,5 +121,40 @@ class Available
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     *
+     * @return Available
+     */
+    public function addMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals[] = $meal;
+        $meal->addAvailable($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove meal
+     *
+     * @param \HomieBundle\Entity\Meal $meal
+     */
+    public function removeMeal(\HomieBundle\Entity\Meal $meal)
+    {
+        $this->meals->removeElement($meal);
+    }
+
+    /**
+     * Get meals
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeals()
+    {
+        return $this->meals;
     }
 }

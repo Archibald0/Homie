@@ -22,6 +22,7 @@ class AvailableType extends AbstractType
                 )
             ))
             ->add('end_date')
+            ->add('meals')
             ->add('submit', SubmitType::class);
     }
     

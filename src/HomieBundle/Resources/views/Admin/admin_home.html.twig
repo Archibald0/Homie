@@ -1,0 +1,152 @@
+{% extends '@Homie/Admin/base_admin.html.twig' %}
+
+{% block main %}
+<main>
+    <div class="container">
+        <div class="row row_custom">
+            <div class="col s12 margin_top">
+                <ul class="tabs">
+                    <li class="tab col s6"><a class="active" href="#Checkouts">Checkouts</a></li>
+                    <li class="tab col s6"><a href="#Delivery">Delivery</a></li>
+                </ul>
+            </div>
+            <div id="Checkouts" class="col s12">
+                <div class="row row_custom">
+                    <div class="col s10 offset-s1">
+                        {% for key, checkoutSort in checkoutSorts %}
+                            {% set price = 0 %}
+                            <div class="row">
+                                <div class="col s12 checkout_admin">
+                                    <ul>
+                                        {% for key, checkout in checkoutSort %}
+                                            {% if key == 0 %}
+                                                <h4>{{ checkout.client.username }}</h4>
+
+                                                <p>
+                                                    <b>phone:</b> 0{{ checkout.client.phone }}<br>
+                                                    <b>address:</b> {{ checkout.street }}<br>
+                                                    {{ checkout.zipCode }} {{ checkout.town }}<br>
+                                                    <b>digicode:</b> {{ checkout.digicode }}<br>
+                                                    <b>complement:</b> {{ checkout.complement }}
+                                                </p>
+                                                <p>
+                                                    <b>Checkout's date:</b> {{ checkout.dateSend|date('d-m-Y h:i') }}
+                                                </p>
+                                            {% endif %}
+                                            <li>
+                                                <p class="checkoutOrder">
+                                                    <b>{{ checkout.quantity }} {{ checkout.meals.name }} from {{ checkout.cook.username }}<br></b>
+                                                </p>
+
+                                                <a class="showAddress">Show address</a>
+
+                                                <p class="cookAddress">
+                                                    {{ checkout.cook.street }}<br>
+                                                    {{ checkout.cook.zipCode }} {{ checkout.cook.town }}<br>
+                                                    tel: {{ checkout.cook.phone }}
+                                                    digicode: {{ checkout.cook.digicode }}
+                                                    complement: {{ checkout.cook.complement }}
+                                                </p>
+                                            </li>
+                                            {% set price = price + checkout.meals.price * checkout.quantity %}
+                                        {% endfor %}
+                                    </ul>
+                                    <p>{{ price }}€</p>
+                                    <button class="btn confirm_btn red" id="{{ key }}">Confirm</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="Delivery" class="col s12">
+                <div class="row row_custom">
+                    <div class="col s10 offset-s1">
+                        {% for key, checkoutCookSort in checkoutCookSorts %}
+                            {% set price = 0 %}
+                            <div class="row">
+                                <div class="col s12 checkout_admin">
+                                    <ul>
+                                        {% for key, checkout in checkoutCookSort %}
+                                            {% if key == 0 %}
+                                                <h4>{{ checkout.client.username }}</h4>
+
+                                                <p>
+                                                    <b>phone:</b> 0{{ checkout.client.phone }}<br>
+                                                    <b>address:</b> {{ checkout.street }}<br>
+                                                    {{ checkout.zipCode }} {{ checkout.town }}<br>
+                                                    <b>digicode:</b> {{ checkout.digicode }}<br>
+                                                    <b>complement:</b> {{ checkout.complement }}
+                                                </p>
+                                                <p>
+                                                    <b>Checkout's date:</b> {{ checkout.dateSend|date('d-m-Y h:i') }}
+                                                </p>
+                                            {% endif %}
+                                            <li>
+                                                <p class="checkoutOrder">
+                                                    <b>{{ checkout.quantity }} {{ checkout.meals.name }} from {{ checkout.cook.username }}<br></b>
+                                                </p>
+
+                                                <a class="showAddress">Show address</a>
+
+                                                <p class="cookAddress">
+                                                    {{ checkout.cook.street }}<br>
+                                                    {{ checkout.cook.zipCode }} {{ checkout.cook.town }}<br>
+                                                    tel: {{ checkout.cook.phone }}
+                                                    digicode: {{ checkout.cook.digicode }}
+                                                    complement: {{ checkout.cook.complement }}
+                                                </p>
+                                            </li>
+                                            {% set price = price + checkout.meals.price * checkout.quantity %}
+                                        {% endfor %}
+                                    </ul>
+                                    <p>{{ price }}€</p>
+                                    <button class="btn confirm_btn red" id="{{ key }}">Confirm</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready( function () {
+            $('.confirm_btn').click( function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url: '{{ path('homie_admin_checkout_confirm') }}',
+                    data: {'id' : id},
+
+                    success: function (response) {
+                        alert(response);
+                        $('#' + id).parent().slideUp(200).remove();
+                    }
+                })
+            });
+
+            $('.confirm_delivery_btn').click( function (e) {
+                e.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    method: 'get',
+                    url: '{{ path('homie_admin_checkout_done') }}',
+                    data: {'id' : id},
+
+                    success: function (response) {
+                        alert(response);
+                        $('#' + id).parent().remove();
+                    }
+                })
+            })
+        });
+    </script>
+{% endblock %}

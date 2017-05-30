@@ -1,3 +1,31 @@
 homie_client_home:
     path: /
     defaults: {_controller: "HomieBundle:Client:showMealClient"}
+
+homie_client_buy:
+    path: /buy
+    defaults: {_controller: "HomieBundle:Client:addCheckout"}
+
+homie_client_checkout:
+    path: /checkout
+    defaults: {_controller: "HomieBundle:Client:checkout"}
+
+homie_client_checkout_delete:
+    path: /checkout/delete
+    defaults: {_controller: "HomieBundle:Client:deleteCheckout"}
+
+homie_client_edit:
+    path: /edit
+    defaults: {_controller: "HomieBundle:Client:editClient"}
+
+homie_client_checkout_purchase:
+    path: /checkout/purchase
+    defaults: {_controller: "HomieBundle:Client:purchase"}
+
+homie_client_checkout_address:
+    path: /checkout/address
+    defaults: {_controller: "HomieBundle:Client:purchaseAddress"}
+
+homie_client_checkout_address_send:
+    path: /checkout/address/send
+    defaults: {_controller: "HomieBundle:Client:purchaseAddressSend"}

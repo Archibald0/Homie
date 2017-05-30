@@ -9,14 +9,55 @@ HomieBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
-        address1:
+
+        street:
             type: string
             length: 255
             nullable: true
-        address2:
+
+        zip_code:
+            type: integer
+            nullable: true
+
+        town:
             type: string
             length: 255
             nullable: true
+
+        digicode:
+            type: string
+            length: 20
+            nullable: true
+
+        complement:
+            type: string
+            length: 255
+            nullable: true
+
+        street2:
+            type: string
+            length: 255
+            nullable: true
+
+        zip_code2:
+            type: integer
+            nullable: true
+
+        town2:
+            type: string
+            length: 255
+            nullable: true
+
+        digicode2:
+            type: string
+            length: 20
+            nullable: true
+
+        complement2:
+            type: string
+            length: 255
+            nullable: true
+
         phone:
             type: integer
             nullable: true
@@ -26,6 +67,7 @@ HomieBundle\Entity\User:
 
         online:
             type: boolean
+            nullable: true
 
     oneToMany:
         availables:
@@ -33,6 +75,12 @@ HomieBundle\Entity\User:
             mappedBy: user
             nullable: true
             cascade: ["all"]
+
+        checkouts:
+            targetEntity: HomieBundle\Entity\Checkout
+            mappedBy: client
+            nullable: true
+
     manyToMany:
         meals:
             targetEntity: HomieBundle\Entity\Meal
