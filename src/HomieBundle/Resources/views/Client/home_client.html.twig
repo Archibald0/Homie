@@ -11,7 +11,7 @@
                                 <img class="activator" src="{{ asset('uploads/photos/') }}{{ meal.photo.url }}">
                             </div>
                             <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">{{ meal.name }}<i class="material-icons right">more_vert</i></span>
+                                <span class="card-title activator grey-text text-darken-4">{{ meal.name }}<i class="material-icons expand_btn right">more_vert</i></span>
                                 <p>{{ cook.username }}, price: {{ meal.price }}€</p>
                             </div>
                             <div class="card-action">
@@ -31,6 +31,33 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
+                {% for available in meals %}
+                    {% for mealAv in available.meals %}
+                        <div class="col s12 card card_custom {% if cooks == null %}margin_top{% endif %}">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="{{ asset('uploads/photos/') }}{{ mealAv.photo.url }}">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{ mealAv.name }}<i class="material-icons expand_btn right">more_vert</i></span>
+                                <p>{{ available.user.username }}, price: {{ mealAv.price }}€</p>
+                            </div>
+                            <div class="card-action">
+                                <form name="form_buy">
+                                    <p class="range-field">
+                                        <label for="#quantity">Quantity:</label>
+                                        <input type="range" name="quantity" id="quantity" min="1" max="10" value="1" />
+                                    </p>
+                                    <input type="hidden" name="ids" value="{{ available.user.id }}-{{ mealAv.id }}" />
+                                    <button type="submit" class="btn btn_custom">Buy</button>
+                                </form>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">{{ mealAv.name }}<i class="material-icons right">close</i></span>
+                                <p>{{ mealAv.description }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </main>
@@ -41,7 +68,8 @@
         $(document).ready( function () {
             $('form[name="form_buy"]').submit( function (e) {
                 e.preventDefault();
-                 var data = new FormData($(this)[0]);
+
+                var data = new FormData($(this)[0]);
                 $.ajax({
                     method: 'post',
                     url: "{{ path('homie_client_buy') }}",
@@ -51,7 +79,7 @@
 
                     success: function (response) {
                         console.log(response);
-                        $('.checkNbTxt').text(response.checkoutNb)
+                        $('.checkNbTxt').text(response.checkoutNb);
                         alert(response.msg);
 
                     }

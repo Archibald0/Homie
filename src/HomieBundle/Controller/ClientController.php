@@ -41,16 +41,18 @@ class ClientController extends Controller
         $user = $this->getUser();
 
         $checkoutNb = $em->getRepository('HomieBundle:Checkout')->findNbCheckout($user);
-
+        $now = new \DateTime('now');
         $cooks = $em->getRepository('HomieBundle:User')->findBy(
             array(
                 'userGroup'=>2,
                 'online'=>1
                 ));
+        $meals = $em->getRepository('HomieBundle:Available')->findAvailableByDate($now);
 
         return $this->render('HomieBundle:Client:home_client.html.twig', array(
             'cooks' => $cooks,
-            'checkoutNb' => $checkoutNb
+            'checkoutNb' => $checkoutNb,
+            'meals' => $meals
         ));
 
     }
