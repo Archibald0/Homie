@@ -8,27 +8,27 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>{% if cook.online == 1 %}
-                            <a class="passOnline" style="background-color: white; color: #ff2f20;">Pass Offline</a>
+                            <a class="passOnline" style="background-color: white; color: #ff2f20;">Go Offline</a>
                         {% elseif cook.online == 0 %}
-                            <a class="passOnline">Pass Online</a>
+                            <a class="passOnline">Go Online</a>
                         {% endif %}
                     </li>
                     <li><a href="{{ path('homie_cook_home') }}">Home</a></li>
-                    <li><a href="{{ path('homie_cook_available') }}">Dates</a></li>
-                    <li><a href="{{ path('homie_cook_meals') }}">Meals</a></li>
+                    <li><a href="{{ path('homie_cook_available') }}">Pre-order meals</a></li>
+                    <li><a href="{{ path('homie_cook_meals') }}">Live meals</a></li>
                     <li><a href="{{ path('homie_homepage') }}logout">Logout</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li>
                         {% if cook.online == 1 %}
-                            <a class="passOnline" style="background-color: white; color: #ff2f20;">Pass Offline</a>
+                            <a class="passOnline" style="background-color: white; color: #ff2f20;">Go Offline</a>
                         {% elseif cook.online == 0 %}
-                            <a class="passOnline">Pass Online</a>
+                            <a class="passOnline">Go Online</a>
                         {% endif %}
                     </li>
                     <li><a href="{{ path('homie_cook_home') }}">Home</a></li>
-                    <li><a href="{{ path('homie_cook_available') }}">Dates</a></li>
-                    <li><a href="{{ path('homie_cook_meals') }}">Meals</a></li>
+                    <li><a href="{{ path('homie_cook_available') }}">Pre-order meals</a></li>
+                    <li><a href="{{ path('homie_cook_meals') }}">Live meals</a></li>
                     <li><a href="{{ path('homie_homepage') }}logout">Logout</a></li>
                 </ul>
             </div>
