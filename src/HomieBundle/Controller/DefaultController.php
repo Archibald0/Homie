@@ -14,10 +14,17 @@ use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
+    /**
+     * @return Response
+     */
     public function indexAction() {
         return $this->render('@Homie/Default/index.html.twig');
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function signUpClientAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $user = new User();
@@ -41,6 +48,10 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addPhotoAction(Request $request) {
         $photo = new Photo();
 
@@ -73,7 +84,6 @@ class DefaultController extends Controller
             $response = new response($jsonPhoto);
 
             $response->headers->set('Content-Type', 'application/json');
-
 
             return $response;
         }

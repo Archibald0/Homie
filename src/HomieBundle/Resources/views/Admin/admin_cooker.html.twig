@@ -9,8 +9,8 @@
             <div class="col s10 offset-s1" id="formCooker">
                 {{ form_start(formCooker) }}
                     {{ form_row(formCooker.username) }}
-                    {{ form_row(formCooker.plainPassword.first) }}
-                    {{ form_row(formCooker.plainPassword.second) }}
+                    {{ form_row(formCooker.plainPassword.first, { 'label': 'Password' }) }}
+                    {{ form_row(formCooker.plainPassword.second, { 'label': 'Confirm Password' }) }}
                     {{ form_row(formCooker.street) }}
                     {{ form_row(formCooker.zip_code) }}
                     {{ form_row(formCooker.town) }}

@@ -3,6 +3,7 @@
 namespace HomieBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -17,7 +18,9 @@ class PhotoType extends AbstractType
     {
         $builder
             ->add('url',FileType::class, array('data_class' => null))
-            ->add('alt');
+            ->add('alt', TextType::class, array(
+                'label'=>'Photo title'
+            ));
     }
     
     /**

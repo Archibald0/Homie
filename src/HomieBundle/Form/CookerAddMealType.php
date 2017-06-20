@@ -19,8 +19,13 @@ class CookerAddMealType extends AbstractType
             ->add('meals', ChoiceType::class, array(
                 'expanded' => false,
                 'multiple'=> false,
+                'label'=>'Meals'
         ))
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, array(
+                'attr'=>array(
+                    'class'=>'btn red'
+                )
+            ))
         ;
     }
 

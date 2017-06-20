@@ -19,6 +19,7 @@ class CookerAvailableType extends AbstractType
             ->add('meals', ChoiceType::class, array(
                 'expanded' => false,
                 'multiple'=> false,
+                'label'=>'Meals'
             ))
             ->add('submit', SubmitType::class)
         ;

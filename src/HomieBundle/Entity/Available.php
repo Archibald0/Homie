@@ -2,8 +2,10 @@
 
 namespace HomieBundle\Entity;
 
+
 /**
- * Available
+ * Class Available
+ * @package HomieBundle\Entity
  */
 class Available
 {

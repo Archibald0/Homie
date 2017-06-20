@@ -3,6 +3,7 @@
 namespace HomieBundle\Controller;
 
 use HomieBundle\Entity\Available;
+use HomieBundle\Form\AvailableType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,9 @@ use Symfony\Component\Serializer\Serializer;
 
 class CookController extends Controller
 {
+    /**
+     * @return Response
+     */
     public function homeAction() {
         $em = $this->getDoctrine()->getManager();
         $cook = $this->getUser();
@@ -30,6 +34,10 @@ class CookController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function confirmCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $clientId = $request->query->get('id');
@@ -69,6 +77,9 @@ class CookController extends Controller
         return $response;
     }
 
+    /**
+     * @return Response
+     */
     public function showMealAction() {
         $em =$this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -82,6 +93,10 @@ class CookController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addMealAction(Request $request) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -107,6 +122,10 @@ class CookController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteCookMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
@@ -124,6 +143,9 @@ class CookController extends Controller
         return $response;
     }
 
+    /**
+     * @return Response
+     */
     public function availableAction() {
         $em = $this->getDoctrine()->getManager();
 
@@ -146,6 +168,10 @@ class CookController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addAvailableAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -204,6 +230,10 @@ class CookController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteAvailableAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
@@ -218,6 +248,9 @@ class CookController extends Controller
         return $response;
     }
 
+    /**
+     * @return Response
+     */
     public function passOnlineAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
