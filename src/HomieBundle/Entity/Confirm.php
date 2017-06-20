@@ -2,8 +2,10 @@
 
 namespace HomieBundle\Entity;
 
+
 /**
- * Confirm
+ * Class Confirm
+ * @package HomieBundle\Entity
  */
 class Confirm
 {

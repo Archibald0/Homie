@@ -17,6 +17,24 @@ nav{
     z-index: 2;
 }
 
+.input-field input[type=text]:focus + label {
+    color: #ff2f20 !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #ff2f20 !important;
+    box-shadow: 0 1px 0 0 #ff2f20 !important;
+}
+
+.input-field input:focus + label {
+    color: #ff2f20 !important;
+}
+/* label underline focus color */
+.row .input-field input:focus {
+    border-bottom: 1px solid #ff2f20 !important;
+    box-shadow: 0 1px 0 0 #ff2f20 !important
+}
+
 input[type=range]+.thumb, input {
     background-color: #ff2f20;
     border-bottom-color: #ff2f20;
@@ -83,7 +101,7 @@ nav h1 {
     background-color: rgba(245,245,245,0.3);
 }
 #rowIndex {
-    margin-top: 70%;
+    margin-top: 40%;
 }
 
 .home_card {

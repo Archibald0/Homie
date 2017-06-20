@@ -14,9 +14,18 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * Class AdminController
+ * @package HomieBundle\Controller
+ */
 class AdminController extends Controller
 {
     // --------- COOKER ADMIN ---------- //
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function indexCookerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -50,7 +59,10 @@ class AdminController extends Controller
         ));
     }
 
-
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteCookerAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $id = $request->query->get('id');
@@ -72,6 +84,10 @@ class AdminController extends Controller
         return new response('La vignette a bien été supprimer');
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function editCookerFormAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $id = $request->query->get('id');
@@ -93,6 +109,10 @@ class AdminController extends Controller
 
     // ------------ MEAL ADMIN ------------ //
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function indexMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
@@ -115,9 +135,15 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $meal = new Meal();
+        $formMeal = $this->createForm(MealType::class, $meal);
+        $formMeal->handleRequest($request);
 
         if($request->isXmlHttpRequest()) {
             $name = $request->request->get('homiebundle_meal')['name'];
@@ -160,6 +186,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $id = $request->query->get('id');
@@ -183,6 +213,10 @@ class AdminController extends Controller
         return new response('La vignette a bien été supprimer');
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function editMealFormAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $id = $request->query->get('id');
@@ -198,33 +232,28 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function editMealAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $id = $request->request->get('id');
 
         $meal = $em->getRepository('HomieBundle:Meal')->findOneById($id);
 
+        $formMeal = $this->createForm(MealType::class, $meal);
+        $formMeal->handleRequest($request);
+
         if($request->isXmlHttpRequest()) {
-            $name = $request->request->get('homiebundle_meal')['name'];
-            $description = $request->request->get('homiebundle_meal')['description'];
-            $delay = $request->request->get('homiebundle_meal')['delay'];
-            $price = $request->request->get('homiebundle_meal')['price'];
-            $mealTypeId = $request->request->get('homiebundle_meal')['meal_type'];
-            $mealType = $em->getRepository('HomieBundle:Meal_type')->findOneById($mealTypeId);
+
             $photoId = $request->request->get('photo_id');
 
             $photo = $em->getRepository('HomieBundle:Photo')->findOneById($photoId);
             if ($photo !== null) {
                 $meal->setPhoto($photo);
             }
-            $meal->setName($name);
-            $meal->setDescription($description);
-            $meal->setDelay($delay);
-            $meal->setMealType($mealType);
-            $meal->setPrice($price);
 
-
-            $em->persist($meal);
             $em->flush();
 
             $meals = $em->getRepository('HomieBundle:Meal')->findAll();
@@ -246,6 +275,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addMealTypeAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $mealType = new Meal_type();
@@ -277,6 +310,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteMealTypeAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $id = $request->query->get('id');
@@ -291,6 +328,10 @@ class AdminController extends Controller
         return new response('Ok');
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function showCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
@@ -318,6 +359,10 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function confirmCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $userId = $request->query->get('id');
@@ -362,6 +407,10 @@ class AdminController extends Controller
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deliveryCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $userId = $request->query->get('id');

@@ -2,8 +2,10 @@
 
 namespace HomieBundle\Entity;
 
+
 /**
- * Checkout
+ * Class Checkout
+ * @package HomieBundle\Entity
  */
 class Checkout
 {

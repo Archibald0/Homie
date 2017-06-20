@@ -16,6 +16,10 @@ use Symfony\Component\Serializer\Serializer;
 
 class ClientController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function signUpCientAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $client = new User();
@@ -36,6 +40,9 @@ class ClientController extends Controller
         ));
     }
 
+    /**
+     * @return Response
+     */
     public function showMealClientAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -57,6 +64,10 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function addCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $client = $this->getUser();
@@ -92,6 +103,9 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @return Response
+     */
     public function checkoutAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -113,6 +127,10 @@ class ClientController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function deleteCheckoutAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $client = $this->getUser();
@@ -140,6 +158,10 @@ class ClientController extends Controller
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function editClientAction(Request $request) {
         $em= $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -163,6 +185,9 @@ class ClientController extends Controller
         ));
     }
 
+    /**
+     * @return Response
+     */
     public function purchaseAction() {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -186,6 +211,10 @@ class ClientController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function purchaseAddressAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -206,6 +235,10 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function purchaseAddressSendAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $address = $request->query->get('address');

@@ -2,8 +2,10 @@
 
 namespace HomieBundle\Entity;
 
+
 /**
- * Meal
+ * Class Meal
+ * @package HomieBundle\Entity
  */
 class Meal
 {
